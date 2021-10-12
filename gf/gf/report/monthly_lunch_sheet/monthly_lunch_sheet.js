@@ -27,6 +27,7 @@ frappe.query_reports["Monthly Lunch Sheet"] = {
 		{
 			"fieldname":"year",
 			"label": __("Year"),
+			"reqd": 1 ,
 			"fieldtype": "Select"
 		}
 	],

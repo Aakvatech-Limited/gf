@@ -6,10 +6,11 @@ import frappe
 import pandas as pd
 import numpy as np
 import datetime as dt
+import calendar
 from frappe import _
 from frappe.utils import cstr, cint, getdate
 from frappe import msgprint, _
-from calendar import monthrange
+
 
 def execute(filters=None):
     columns = get_columns()
@@ -26,10 +27,11 @@ def execute(filters=None):
             values='qty',
             index=['employee', 'employee_name'],
             columns='time',
-            aggfunc = "count",
-            margins=True,
+            aggfunc = "sum",
+            margins = "True",
+            margins_name = "Total",
             fill_value=''
-        )
+        ).iloc[:-1,:]
         #frappe.msgprint(str(pvt))
         
         data = pvt.reset_index().values.tolist()
@@ -61,18 +63,18 @@ def get_columns():
 	return columns
 
 def get_lunch_checkin(filters):
-    last_day_of_month = calendar.monthrange(filters.year,filters.month)[1]
+    last_day_of_month = calendar.monthrange(cint(filters.year), cint(filters.month))[1]
+    start_date = dt.date(cint(filters.year), cint(filters.month), 1)
+    end_date = dt.date(cint(filters.year), cint(filters.month), last_day_of_month)
+    
+    
     return frappe.db.sql("""
-        SELECT employee, employee_name, DATE_FORMAT(time, '%d %a') as time, count(employee) as  qty
+        SELECT employee, employee_name, DATE_FORMAT(time, '%d %a') as time, 1 as  qty
         FROM `tabEmployee Checkin`
         WHERE device_id = 'lunch'
-        AND time between {start_date} and {end_date}
+        AND time between '""" + str(start_date) + """ 00:00:00' and '""" + str(end_date) + """ 23:59:59'
         GROUP BY employee, employee_name, DATE_FORMAT(time, '%d $a')
-        ORDER BY DATE_FORMAT(time, '%d'), employee_name"""\
-		.format(
-            start_date = dt.date(filters.year, filters.month, 1)
-            end_date = dt.date(filters.year, filters.month, last_day_of_month)
-        ), filters, as_dict = 1)
+        ORDER BY DATE_FORMAT(time, '%d'), employee_name""", as_dict = 1)
 
 @frappe.whitelist()
 def get_lunch_years():
