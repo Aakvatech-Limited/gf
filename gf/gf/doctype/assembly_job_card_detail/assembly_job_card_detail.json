@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-17 09:17:08.365470",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "station",
+  "section_break_ylf7x",
+  "start",
+  "start_datetime",
+  "column_break_at5w0",
+  "pause",
+  "pause_datetime",
+  "column_break_87r7z",
+  "end",
+  "end_datetime",
+  "section_break_2wh1u",
+  "time_elapsed",
+  "column_break_n7pdf",
+  "pending_tasks"
+ ],
+ "fields": [
+  {
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Start Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_at5w0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_87r7z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "End Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_2wh1u",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "time_elapsed",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total Time Elapsed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_n7pdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.pause_datetime",
+   "fieldname": "pending_tasks",
+   "fieldtype": "Text Editor",
+   "label": "Pending Tasks",
+   "mandatory_depends_on": "eval: doc.pause_datetime",
+   "read_only_depends_on": "eval: !doc.pause_datetime"
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Station",
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval: !doc.start_datetime",
+   "fieldname": "start",
+   "fieldtype": "Button",
+   "label": "Start"
+  },
+  {
+   "depends_on": "eval: !doc.pause_datetime && !doc.end_datetime",
+   "fieldname": "pause",
+   "fieldtype": "Button",
+   "label": "Pause"
+  },
+  {
+   "fieldname": "pause_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Pause Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval: !doc.end_datetime",
+   "fieldname": "end",
+   "fieldtype": "Button",
+   "label": "End"
+  },
+  {
+   "fieldname": "section_break_ylf7x",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-22 07:18:56.284236",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Assembly Job Card Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
