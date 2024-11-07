@@ -1,0 +1,202 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-17 16:21:29.643202",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "work_order",
+  "parent_job_card",
+  "customer",
+  "column_break_pcxi0",
+  "gfa_bol_no",
+  "gfa_batch_no",
+  "column_break_odycx",
+  "engine_no",
+  "chassis_no",
+  "model",
+  "column_break_dvi0n",
+  "company",
+  "posting_date",
+  "posting_time",
+  "section_break_j0uyx",
+  "create_body_shop_job_card",
+  "column_break_ilwb6",
+  "create_quality_check_job_card",
+  "has_quality_check",
+  "section_break_p1uzs",
+  "job_card_detail",
+  "section_break_yvzzn",
+  "column_break_3lwmy",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "work_order",
+   "fieldtype": "Link",
+   "label": "Work Order",
+   "options": "Assembly Work Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_pcxi0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gfa_bol_no",
+   "fieldtype": "Link",
+   "label": "GFA BOL No",
+   "options": "GFA Bol No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gfa_batch_no",
+   "fieldtype": "Link",
+   "label": "GFA Batch No",
+   "options": "GFA Batch No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_odycx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "engine_no",
+   "fieldtype": "Data",
+   "label": "Engine No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "chassis_no",
+   "fieldtype": "Data",
+   "label": "Chassis No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dvi0n",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "Posting Time ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_j0uyx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "job_card_detail",
+   "fieldtype": "Table",
+   "label": "Job Card Detail",
+   "options": "Sickbed Job Card Detail"
+  },
+  {
+   "fieldname": "section_break_yvzzn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "parent_job_card",
+   "fieldtype": "Link",
+   "label": "Parent Job Card",
+   "options": "Assembly Job Card",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_3lwmy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Sickbay Job Card",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval: doc.docstatus == 1 && doc.has_quality_check == 0",
+   "fieldname": "create_body_shop_job_card",
+   "fieldtype": "Button",
+   "label": "Create Body Shop Job Card"
+  },
+  {
+   "fieldname": "column_break_ilwb6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.docstatus == 1 && doc.has_quality_check == 0",
+   "fieldname": "create_quality_check_job_card",
+   "fieldtype": "Button",
+   "label": "Create Quality Check Job Card"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_quality_check",
+   "fieldtype": "Check",
+   "label": "Has Quality Check",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_p1uzs",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-10-21 11:26:40.508851",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Sickbay Job Card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

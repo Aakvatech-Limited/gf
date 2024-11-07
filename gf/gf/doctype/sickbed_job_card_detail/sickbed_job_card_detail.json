@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-18 12:18:04.089049",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "station",
+  "section_break_tanzw",
+  "start",
+  "start_datetime",
+  "column_break_at5w0",
+  "end",
+  "end_datetime",
+  "section_break_2wh1u",
+  "time_elapsed",
+  "column_break_n7pdf",
+  "pending_tasks"
+ ],
+ "fields": [
+  {
+   "fieldname": "station",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Station",
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval: !doc.start_datetime",
+   "fieldname": "start",
+   "fieldtype": "Button",
+   "label": "Start"
+  },
+  {
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Start Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_at5w0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: !doc.end_datetime",
+   "fieldname": "end",
+   "fieldtype": "Button",
+   "label": "End"
+  },
+  {
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "End Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_2wh1u",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "time_elapsed",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total Time Elapsed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_n7pdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pending_tasks",
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "label": "Pending Tasks",
+   "mandatory_depends_on": "eval: doc.pause_datetime",
+   "read_only_depends_on": "eval: !doc.pause_datetime"
+  },
+  {
+   "fieldname": "section_break_tanzw",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-22 07:37:43.596627",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Sickbed Job Card Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
