@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-17 10:36:08.856120",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "chassis_number",
+  "engine_number"
+ ],
+ "fields": [
+  {
+   "fieldname": "chassis_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Chassis Number",
+   "options": "Serial No"
+  },
+  {
+   "fieldname": "engine_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Engine Number",
+   "options": "Serial No"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-17 10:36:08.856120",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Assembly Work Order Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

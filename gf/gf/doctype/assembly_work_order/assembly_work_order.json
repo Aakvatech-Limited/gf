@@ -1,0 +1,190 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "GFA-AWO-.#####",
+ "creation": "2024-10-17 10:37:02.174227",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "customer",
+  "parent_item",
+  "column_break_5ntnj",
+  "quantity",
+  "gfa_bol_no",
+  "gfa_batch_no",
+  "section_break_pkrcl",
+  "assembly_default_bom",
+  "cabinet_default_bom",
+  "stock_entry",
+  "column_break_ksjot",
+  "default_source_warehouse",
+  "assembly_line_warehouse",
+  "cabinet_line_warehouse",
+  "section_break_h44bw",
+  "work_order_detail",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "parent_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Parent Item",
+   "options": "Item",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "search_index": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_5ntnj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "gfa_bol_no",
+   "fieldtype": "Link",
+   "label": "GFA Bol No",
+   "options": "GFA Bol No"
+  },
+  {
+   "fieldname": "gfa_batch_no",
+   "fieldtype": "Link",
+   "label": "GFA Batch No",
+   "options": "GFA Batch No"
+  },
+  {
+   "fieldname": "section_break_pkrcl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "default_source_warehouse",
+   "fieldtype": "Link",
+   "label": "Default Source Warehouse",
+   "options": "Warehouse",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ksjot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assembly_line_warehouse",
+   "fieldtype": "Link",
+   "label": "Assembly Line Warehouse",
+   "options": "Warehouse",
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_h44bw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Assembly Work Order",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Assembly Work Order",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "assembly_default_bom",
+   "fieldtype": "Link",
+   "label": "Assembly Default BOM",
+   "options": "BOM",
+   "search_index": 1
+  },
+  {
+   "fieldname": "cabinet_default_bom",
+   "fieldtype": "Link",
+   "label": "Cabinet Default BOM",
+   "options": "BOM",
+   "search_index": 1
+  },
+  {
+   "fieldname": "cabinet_line_warehouse",
+   "fieldtype": "Link",
+   "label": "Cabinet Line Warehouse",
+   "options": "Warehouse",
+   "search_index": 1
+  },
+  {
+   "fieldname": "work_order_detail",
+   "fieldtype": "Table",
+   "label": "Work Order Detail",
+   "options": "Assembly Work Order Detail"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "stock_entry",
+   "fieldtype": "Data",
+   "label": "Stock Entry",
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-10-17 14:41:05.902976",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Assembly Work Order",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
