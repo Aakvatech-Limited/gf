@@ -107,7 +107,7 @@ class AssemblyWorkOrder(Document):
 
 	def create_job_cards(self):
 		for row in self.work_order_detail:
-			if self.assembly_default_bom:
-				create_assembly_job_card(self, row, "ASS")
-			if self.cabinet_default_bom:
-				create_assembly_job_card(self, row, "CAB")
+			# if self.assembly_default_bom:
+			create_assembly_job_card(self, row)
+			# if self.cabinet_default_bom:
+			# 	create_assembly_job_card(self, row, "CAB")
