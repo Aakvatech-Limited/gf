@@ -1,28 +1,45 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-10-17 09:17:08.365470",
+ "creation": "2024-11-11 12:32:13.679969",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "station",
-  "section_break_ylf7x",
+  "section_break_tanzw",
   "start",
   "start_datetime",
   "column_break_at5w0",
-  "pending",
-  "pending_datetime",
-  "column_break_87r7z",
   "end",
   "end_datetime",
   "section_break_2wh1u",
   "total_time_elapsed",
+  "ref_doctype",
+  "ref_docname",
   "column_break_n7pdf",
   "pending_tasks"
  ],
  "fields": [
+  {
+   "fieldname": "station",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Station",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_tanzw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: !doc.start_datetime",
+   "fieldname": "start",
+   "fieldtype": "Button",
+   "label": "Start"
+  },
   {
    "fieldname": "start_datetime",
    "fieldtype": "Datetime",
@@ -36,8 +53,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "column_break_87r7z",
-   "fieldtype": "Column Break"
+   "depends_on": "eval: !doc.end_datetime && doc.start_datetime",
+   "fieldname": "end",
+   "fieldtype": "Button",
+   "label": "End"
   },
   {
    "fieldname": "end_datetime",
@@ -56,49 +75,28 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: doc.pending_datetime",
    "fieldname": "pending_tasks",
    "fieldtype": "Text Editor",
+   "in_list_view": 1,
    "label": "Pending Tasks",
-   "mandatory_depends_on": "eval: doc.pending_datetime",
-   "read_only_depends_on": "eval: !doc.pending_datetime"
+   "mandatory_depends_on": "eval: doc.pause_datetime",
+   "read_only_depends_on": "eval: !doc.pause_datetime"
   },
   {
-   "fieldname": "station",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Station",
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "label": "Ref Doctype",
+   "options": "DocType",
    "read_only": 1,
    "search_index": 1
   },
   {
-   "depends_on": "eval: !doc.start_datetime",
-   "fieldname": "start",
-   "fieldtype": "Button",
-   "label": "Start"
-  },
-  {
-   "depends_on": "eval: !doc.end_datetime && doc.start_datetime && !doc.pending_datetime",
-   "fieldname": "end",
-   "fieldtype": "Button",
-   "label": "End"
-  },
-  {
-   "fieldname": "section_break_ylf7x",
-   "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval: !doc.pending_datetime && doc.start_datetime && !doc.end_datetime",
-   "fieldname": "pending",
-   "fieldtype": "Button",
-   "label": "Pending"
-  },
-  {
-   "fieldname": "pending_datetime",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Pending Datetime",
-   "read_only": 1
+   "fieldname": "ref_docname",
+   "fieldtype": "Dynamic Link",
+   "label": "Ref Docname",
+   "options": "ref_doctype",
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "total_time_elapsed",
@@ -112,10 +110,10 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-13 12:58:23.863712",
+ "modified": "2024-11-13 12:56:11.663836",
  "modified_by": "Administrator",
  "module": "GF",
- "name": "Assembly Job Card Detail",
+ "name": "Sickbay Job Card Detail",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

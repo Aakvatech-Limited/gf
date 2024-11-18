@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-10-17 09:17:08.365470",
+ "creation": "2024-11-11 10:59:56.269612",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -24,6 +24,24 @@
  ],
  "fields": [
   {
+   "fieldname": "station",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Station",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_ylf7x",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: !doc.start_datetime",
+   "fieldname": "start",
+   "fieldtype": "Button",
+   "label": "Start"
+  },
+  {
    "fieldname": "start_datetime",
    "fieldtype": "Datetime",
    "in_list_view": 1,
@@ -36,8 +54,28 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval: !doc.pending_datetime && doc.start_datetime && !doc.end_datetime",
+   "fieldname": "pending",
+   "fieldtype": "Button",
+   "label": "Pending"
+  },
+  {
+   "fieldname": "pending_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Pending Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
    "fieldname": "column_break_87r7z",
    "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: !doc.end_datetime && doc.start_datetime",
+   "fieldname": "end",
+   "fieldtype": "Button",
+   "label": "End"
   },
   {
    "fieldname": "end_datetime",
@@ -64,43 +102,6 @@
    "read_only_depends_on": "eval: !doc.pending_datetime"
   },
   {
-   "fieldname": "station",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Station",
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
-   "depends_on": "eval: !doc.start_datetime",
-   "fieldname": "start",
-   "fieldtype": "Button",
-   "label": "Start"
-  },
-  {
-   "depends_on": "eval: !doc.end_datetime && doc.start_datetime && !doc.pending_datetime",
-   "fieldname": "end",
-   "fieldtype": "Button",
-   "label": "End"
-  },
-  {
-   "fieldname": "section_break_ylf7x",
-   "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval: !doc.pending_datetime && doc.start_datetime && !doc.end_datetime",
-   "fieldname": "pending",
-   "fieldtype": "Button",
-   "label": "Pending"
-  },
-  {
-   "fieldname": "pending_datetime",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Pending Datetime",
-   "read_only": 1
-  },
-  {
    "fieldname": "total_time_elapsed",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -112,10 +113,10 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-13 12:58:23.863712",
+ "modified": "2024-11-13 12:55:27.275010",
  "modified_by": "Administrator",
  "module": "GF",
- "name": "Assembly Job Card Detail",
+ "name": "Cabinet Job Card Detail",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
