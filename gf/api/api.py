@@ -42,7 +42,7 @@ def create_stock_entry(data):
     return stock_entry.name
 
 
-def create_assembly_job_card(doc, row, type):
+def create_assembly_job_card(doc, row):
     doc_dict = doc.as_dict()
     row_dict = row.as_dict()
     for field in get_fields_to_clear():
@@ -60,21 +60,22 @@ def create_assembly_job_card(doc, row, type):
     card_doc.model = doc.parent_item
     card_doc.engine_no = row_dict.get("engine_number")
     card_doc.chassis_no = row_dict.get("chassis_number")
+    card_doc.status = "Pending"
 
     
-    if type == "ASS":
-        for i in range(7):
-            card_doc.append("job_card_detail", {
-                "station": f"Station {i+1}"
-            })
-    
-    elif type == "CAB":
-        for i in range(5):
-            card_doc.append("job_card_detail", {
-                "station": f"Station {i+1}"
-            })
+    for i in range(8):
+        card_doc.append("assembly_job_detail", {"station": f"S {i+1}" })
 
-    card_doc.__newname = f"{type}/{card_doc.engine_no}/{card_doc.chassis_no}/{card_doc.model}"
+    card_doc.append("assembly_job_detail", {"station": f"EOL"})
+    
+    for i in range(6):
+        card_doc.append("cabinet_job_detail", {"station": f"C {i+1}" })
+
+    for i in range(1):
+        card_doc.append("bodyshop_job_detail", {"station": f"B {i+1}" })
+
+    card_doc.__newname = f"{card_doc.engine_no}/{card_doc.chassis_no}/{card_doc.model}"
+
     card_doc.insert(ignore_permissions=True)
     card_doc.reload()
 
