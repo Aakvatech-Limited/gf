@@ -9,7 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "company",
-  "customer",
+  "consignee",
   "parent_item",
   "column_break_5ntnj",
   "quantity",
@@ -42,15 +42,6 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
-   "search_index": 1
-  },
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Customer",
-   "options": "Customer",
-   "reqd": 1,
    "search_index": 1
   },
   {
@@ -158,12 +149,22 @@
    "label": "Stock Entry",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "consignee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Consignee",
+   "options": "Customer",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-17 14:41:05.902976",
+ "modified": "2024-11-13 12:01:28.315860",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Work Order",
