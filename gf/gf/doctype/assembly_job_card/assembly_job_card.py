@@ -53,4 +53,42 @@ class AssemblyJobCard(Document):
 				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
 				self.sickbay_total_hours += row.total_time_elapsed
 
+	def add_sickbay_task(self):
+		if self.has_sickbay == 0:
+			return
+		
+		self.status = "Sickbay"
+		sickbay_tasks = [i.station for i in self.sickbay_job_detail]
+
+		for row in self.assembly_job_detail:
+			if row.station not in sickbay_tasks and row.pending_datetime and not row.end_datetime:
+				self.append("sickbay_job_detail", {
+					"station": row.station,
+					"pending_tasks": row.pending_tasks,
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name
+				})
+		
+		for d in self.cabinet_job_detail:
+			if d.station not in sickbay_tasks and d.pending_datetime and not d.end_datetime:
+				self.append("sickbay_job_detail", {
+                    "station": d.station,
+                    "pending_tasks": d.pending_tasks,
+                    "ref_doctype": d.doctype,
+                    "ref_docname": d.name
+                })
+		
+		for d in self.bodyshop_job_detail:
+			if d.station not in sickbay_tasks and d.pending_datetime and not d.end_datetime:
+				self.append("sickbay_job_detail", {
+                    "station": d.station,
+                    "pending_tasks": d.pending_tasks,
+                    "ref_doctype": d.doctype,
+                    "ref_docname": d.name
+                })
+
 	
+	def validate_submit_status(self):
+		if self.status not in ["QC", "Bodyshop"]:
+			frappe.throw("Only Job Card with QC/Bodyshop status can be submitted, Please inform the QC/Bodyshop team to check the truck")
+
