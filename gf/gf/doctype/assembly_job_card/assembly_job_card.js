@@ -4,67 +4,37 @@
 frappe.ui.form.on('Assembly Job Card', {
 	refresh: (frm) =>{
 		// hide button to add rows
-		frm.get_field("job_card_detail").grid.cannot_add_rows = true;
+		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
 
 		// hide button to delete rows
-		$("*[data-fieldname='job_card_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='job_card_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
 
-		frm.trigger('validate_pending_tasks');
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
+
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
+
 	},
 	
 	onload: (frm) => {
 		// hide button to add rows
-		frm.get_field("job_card_detail").grid.cannot_add_rows = true;
+		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
 
 		// hide button to delete rows
-		$("*[data-fieldname='job_card_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='job_card_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
 
-		frm.trigger('validate_pending_tasks');
-	},
-	validate_pending_tasks: (frm) => {
-		let pending_tasks = frm.doc.job_card_detail.filter(d => d.pause_datetime && !d.end_datetime);
-		if (pending_tasks.length > 0) {
-			frm.set_df_property('create_sickbed_job_card', 'hidden', 0);
-		}
-	},
-	create_sickbed_job_card: (frm) => {
-		frappe.call({
-			method: 'gf.api.api.create_sickbed_job_card',
-			args: {
-				doc_type: frm.doc.doctype,
-				doc_name: frm.doc.name,
-			},
-			freeze: true,
-			callback: (r) => {
-				if (r.message) {
-					frappe.show_alert({
-						message: __('Sickbed Job Card {0} created successfully', [r.message]),
-						indicator: 'green'
-					});
-				}
-			}
-		});
-	},
-	create_body_shop_job_card: (frm) => {
-		frappe.call({
-			method: 'gf.api.api.create_body_shop_or_qc_card',
-			args: {
-				doc_type: frm.doc.doctype,
-				doc_name: frm.doc.name,
-				card_type: "Bodyshop Job Card"
-			},
-			freeze: true,
-			callback: (r) => {
-				if (r.message) {
-					frappe.show_alert({
-						message: __('Bodyshop Job Card {0} created successfully', [r.message]),
-						indicator: 'green'
-					});
-				}
-			}
-		}); 
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
+
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
 	},
 	create_quality_check_job_card: (frm) => {
 		frappe.call({
@@ -90,40 +60,163 @@ frappe.ui.form.on('Assembly Job Card', {
 
 frappe.ui.form.on('Assembly Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
-		frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-delete-row').hide();
-		frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-		frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-insert-row').hide();
-		frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-		frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-move-row').hide();
+		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-delete-row').hide();
+		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-insert-row').hide();
+		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-move-row').hide();
 	},
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
-		frm.refresh_field('job_card_detail');
+		frm.refresh_field('assembly_job_detail');
+		frm.set_value('status', 'Assembly');
 		frm.save();
 	},
-	pause: (frm, cdt, cdn) => {
-		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+	pending: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime())
 		
 		let row = frappe.get_doc(cdt, cdn);
-		if (row.start_datetime && row.pause_datetime) {
-			let time_elapsed = frappe.datetime.get_diff(row.pause_datetime, row.start_datetime);
-			frappe.model.set_value(cdt, cdn, 'time_elapsed', time_elapsed);
+		if (row.start_datetime && row.pending_datetime) {
+			let assembly_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assembly_p_total_time_elapsed);
 		}
-		frm.refresh_field('job_card_detail');
+		frm.refresh_field('assembly_job_detail');
+		frm.set_value('status', 'Assembly');
+		if (row.pending_tasks) {
+			frm.save();
+		}
+	},
+	end: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'end_datetime', frappe.datetime.now_datetime())
+
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.end_datetime) {
+			let assmbly_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assmbly_end_total_time_elapsed)
+		}
+		frm.refresh_field('assembly_job_detail');
+		frm.set_value('status', 'Assembly');
+		frm.save();
+	},
+});
+
+
+frappe.ui.form.on('Cabinet Job Card Detail', {
+	form_render: (frm, cdt, cdn) => {
+        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-move-row').hide();
+    },
+	start: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
+		frm.refresh_field('cabinet_job_detail');
+		frm.set_value('status', 'Cabinet');
+		frm.save();
+	},	
+	pending: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime());
+
+        let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.pending_datetime) {
+			let cab_p_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_p_time_elapsed);
+		}
+
+        frm.refresh_field('cabinet_job_detail');
+		frm.set_value('status', 'Cabinet');
+		if (row.pending_tasks) {
+			frm.save();
+		}
+    },
+	end: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'end_datetime', frappe.datetime.now_datetime());
+
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.end_datetime) {
+			let cab_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_end_total_time_elapsed);
+		}
+
+        frm.refresh_field('cabinet_job_detail');
+		frm.set_value('status', 'Cabinet');
+        frm.save();
+	},
+});
+
+
+frappe.ui.form.on('Bodyshop Job Card Detail', {
+	form_render: (frm, cdt, cdn) => {
+		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-delete-row').hide();
+		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-insert-row').hide();
+		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-move-row').hide();
+	},
+	start: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('bodyshop_job_detail');
+		frm.set_value('status', 'Bodyshop');
+		frm.save();
+	},
+	pending: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime())
+		
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.pending_datetime) {
+			let body_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_p_total_time_elapsed);
+		}
+		frm.refresh_field('bodyshop_job_detail');
+		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
 	end: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'end_datetime', frappe.datetime.now_datetime())
 
 		let row = frappe.get_doc(cdt, cdn);
-		console.log(row);
 		if (row.start_datetime && row.end_datetime) {
-			let time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
-			console.log(time_elapsed);
-			frappe.model.set_value(cdt, cdn, 'time_elapsed', time_elapsed)
+			let body_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_end_total_time_elapsed)
 		}
-		frm.refresh_field('job_card_detail');
+		frm.refresh_field('bodyshop_job_detail');
+		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
 });
 
+
+frappe.ui.form.on('Sickbay Job Card Detail', {
+	form_render: (frm, cdt, cdn) => {
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-move-row').hide();
+    },
+	start: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
+		frm.refresh_field('sickbay_job_detail');
+		frm.set_value('status', 'Sickbay');
+		frm.save();
+	},
+	end: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		let now_datetime = frappe.datetime.now_datetime();
+
+		frappe.model.set_value(row.doctype, row.name, 'end_datetime', now_datetime);
+		if (row.ref_doctype && row.ref_docname) {
+			frappe.model.set_value(row.ref_doctype, row.ref_docname, 'end_datetime', now_datetime);
+		}
+		frm.refresh_field('sickbay_job_detail');
+		frm.set_value('status', 'Sickbay');
+		frm.save();
+	},
+})
+
+frappe.ui.form.on('Job Card QC Detail', {
+	quality_check_detail_add: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+	},
+})
