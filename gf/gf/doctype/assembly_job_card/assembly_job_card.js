@@ -48,6 +48,14 @@ frappe.ui.form.on('Assembly Job Card', {
 				}
 			}
 		});
+
+		frm.set_query('bs_checklist', () => {
+			return {
+				filters: {
+					'type': 'Body'
+				}
+			}
+		});
 	},
 	create_quality_check_job_card: (frm) => {
 		frappe.call({
@@ -68,13 +76,13 @@ frappe.ui.form.on('Assembly Job Card', {
 			}
 		});
 	},
-	checklist: (frm) => {
-		if (frm.doc.checklist) {
+	eol_check_list: (frm) => {
+		if (frm.doc.eol_check_list) {
 			frappe.call({
 				method: 'get_checklist',
 				doc: frm.doc,
 				args: {
-					checklist_id: frm.doc.checklist,
+					checklist_id: frm.doc.eol_check_list,
 				},
 				callback: (r) => {
 					if (r.message) {
@@ -92,6 +100,32 @@ frappe.ui.form.on('Assembly Job Card', {
 		} else {
 			frm.clear_table('quality_check_detail');
 			frm.refresh_field('quality_check_detail');
+		}
+	},
+	bs_checklist: (frm) => {
+		if (frm.doc.bs_checklist) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.bs_checklist,
+				},
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('bodyshop_qc_detail');
+
+						r.message.forEach((element) => {
+							frm.add_child('bodyshop_qc_detail', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('bodyshop_qc_detail');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('bodyshop_qc_detail');
+			frm.refresh_field('bodyshop_qc_detail');
 		}
 	},
 });

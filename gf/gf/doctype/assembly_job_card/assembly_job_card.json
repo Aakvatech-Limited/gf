@@ -38,6 +38,9 @@
   "bodyshop_detail_tab",
   "bodyshop_job_detail",
   "bodyshop_total_hours",
+  "section_break_5eiux",
+  "bs_checklist",
+  "bodyshop_qc_detail",
   "sickbay_detail_tab",
   "sickbay_job_detail",
   "sickbay_total_hours"
@@ -261,13 +264,29 @@
    "fieldtype": "Link",
    "label": "EOL Check List",
    "options": "QC Checklist"
+  },
+  {
+   "fieldname": "section_break_5eiux",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bs_checklist",
+   "fieldtype": "Link",
+   "label": "BS Checklist",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "bodyshop_qc_detail",
+   "fieldtype": "Table",
+   "label": "Bodyshop QC Detail",
+   "options": "Bodyshop QC Detail"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-09 18:03:24.347786",
+ "modified": "2024-12-09 19:09:44.929248",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
