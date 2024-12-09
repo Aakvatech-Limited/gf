@@ -12,6 +12,7 @@ class AssemblyJobCard(Document):
 		self.add_remove_defects_task()	
 	
 	def before_submit(self):
+		self.validate_defects()
 		self.validate_submit_status()
 
 		self.status = "Completed"
@@ -136,4 +137,7 @@ class AssemblyJobCard(Document):
 		for row in row_to_remove:
 			row.delete(ignore_permissions=True, force=True)
 		
-
+	def validate_defects(self):
+		for row in self.qc_defect_detail:
+			if row.status != "Not Ok":
+				frappe.throw("Please check the defects section and work on the defects found by QC team")

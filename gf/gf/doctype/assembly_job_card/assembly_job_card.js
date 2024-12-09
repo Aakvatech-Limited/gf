@@ -289,7 +289,19 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 })
 
 frappe.ui.form.on('Job Card QC Detail', {
-	quality_check_detail_add: (frm, cdt, cdn) => {
+	status: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+	},
+})
+
+frappe.ui.form.on('Bodyshop QC Detail', {
+	status: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+	},
+})
+
+frappe.ui.form.on('QC Defect Detail', {
+	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
 	},
 })
