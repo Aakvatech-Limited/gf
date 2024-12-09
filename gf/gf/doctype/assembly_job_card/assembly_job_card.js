@@ -3,6 +3,8 @@
 
 frappe.ui.form.on('Assembly Job Card', {
 	refresh: (frm) =>{
+		frm.trigger("set_filters");
+		
 		// hide button to add rows
 		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
 		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
@@ -21,6 +23,8 @@ frappe.ui.form.on('Assembly Job Card', {
 	},
 	
 	onload: (frm) => {
+		frm.trigger("set_filters");
+		
 		// hide button to add rows
 		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
 		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
@@ -35,6 +39,15 @@ frappe.ui.form.on('Assembly Job Card', {
 
 		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
+	},
+	set_filters: (frm) => {
+		frm.set_query('eol_check_list', () => {
+			return {
+				filters: {
+					'type': 'EOL'
+				}
+			}
+		});
 	},
 	create_quality_check_job_card: (frm) => {
 		frappe.call({
