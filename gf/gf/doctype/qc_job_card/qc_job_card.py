@@ -45,4 +45,13 @@ class QCJobCard(Document):
 
 		self.serial_no = serial_no.name
 		self.save()
-	
+
+	@frappe.whitelist()
+	def get_checklist(self, checklist_id):
+		checklist = []
+		checklist_doc = frappe.get_cached_doc('QC Checklist', checklist_id)
+		for row in checklist_doc.checklist:
+			checklist.append({
+				"task": row.get("task")
+			})
+		return checklist
