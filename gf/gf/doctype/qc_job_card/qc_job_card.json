@@ -256,10 +256,11 @@
    "label": "End Odometer Reading"
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-06 17:34:25.755098",
+ "modified": "2024-12-09 22:09:45.385795",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",

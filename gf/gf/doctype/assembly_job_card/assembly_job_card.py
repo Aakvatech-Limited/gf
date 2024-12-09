@@ -2,8 +2,8 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.utils import time_diff_in_hours
 from frappe.model.document import Document
+from frappe.utils import time_diff_in_hours, nowdate, nowtime, get_url_to_form
 
 class AssemblyJobCard(Document):
 	def before_save(self):
@@ -16,6 +16,9 @@ class AssemblyJobCard(Document):
 		self.validate_submit_status()
 
 		self.status = "Completed"
+	
+	def on_submit(self):
+		self.create_qc_job_card()
 
 	def set_working_hours(self):
 		self.assembly_total_hours = 0
@@ -141,3 +144,23 @@ class AssemblyJobCard(Document):
 		for row in self.qc_defect_detail:
 			if row.status != "Not Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")
+	
+	def create_qc_job_card(self):
+		qc_job_card = frappe.new_doc("QC Job Card")
+		qc_job_card.assembly_job_card = self.name
+		qc_job_card.work_order = self.work_order
+		qc_job_card.consignee = self.consignee
+		qc_job_card.gfa_bol_no = self.gfa_bol_no
+		qc_job_card.gfa_batch_no = self.gfa_batch_no
+		qc_job_card.engine_no = self.engine_no
+		qc_job_card.chassis_no = self.chassis_no
+		qc_job_card.model = self.model
+		qc_job_card.company = self.company
+		qc_job_card.posting_date = nowdate()
+		qc_job_card.posting_time = nowtime()
+		qc_job_card.__newname = f"{self.engine_no}/{self.chassis_no}/{self.model}"
+		qc_job_card.save(ignore_permissions=True)
+
+		if qc_job_card.get("name"):
+			url = get_url_to_form(qc_job_card.get("doctype"), qc_job_card.get("name"))
+			frappe.msgprint(f"QC Job Card: <a href='{url}'><b>{qc_job_card.get('name')}</b></a> has been created successfully.")
