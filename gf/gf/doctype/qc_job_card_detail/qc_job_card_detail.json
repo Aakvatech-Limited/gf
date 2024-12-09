@@ -36,6 +36,7 @@
    "search_index": 1
   },
   {
+   "depends_on": "eval: doc.status == 'Not Ok'",
    "fieldname": "defect",
    "fieldtype": "Small Text",
    "in_list_view": 1,
@@ -46,7 +47,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-06 18:19:43.704973",
+ "modified": "2024-12-09 23:18:45.064005",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card Detail",

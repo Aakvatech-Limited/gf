@@ -36,6 +36,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval: doc.status == 'Not Ok'",
    "fieldname": "defect",
    "fieldtype": "Small Text",
    "in_list_view": 1,
@@ -46,7 +47,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-09 19:08:17.355052",
+ "modified": "2024-12-09 23:18:07.412417",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Bodyshop QC Detail",

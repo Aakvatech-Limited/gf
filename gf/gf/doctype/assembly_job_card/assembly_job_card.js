@@ -282,6 +282,9 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 frappe.ui.form.on('Job Card QC Detail', {
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
 	},
 })
 
@@ -289,6 +292,9 @@ frappe.ui.form.on('Job Card QC Detail', {
 frappe.ui.form.on('Bodyshop QC Detail', {
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
 	},
 })
 
@@ -303,5 +309,8 @@ frappe.ui.form.on('QC Defect Detail', {
     },
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
 	},
 })

@@ -70,7 +70,7 @@ class QCJobCard(Document):
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
-			if row.name not in defects_ref_docnames:
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
 				self.append("qc_defect_items", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
@@ -87,5 +87,5 @@ class QCJobCard(Document):
 
 	def validate_defects(self):
 		for row in self.qc_defect_items:
-			if row.status == "Not Ok":
+			if row.status != "Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")

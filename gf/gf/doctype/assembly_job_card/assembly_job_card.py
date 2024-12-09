@@ -9,7 +9,7 @@ class AssemblyJobCard(Document):
 	def before_save(self):
 		self.set_working_hours()
 		self.add_sickbay_task()
-		self.add_remove_defects_task()	
+		self.add_remove_defects()	
 	
 	def before_submit(self):
 		self.validate_defects()
@@ -62,7 +62,7 @@ class AssemblyJobCard(Document):
 		if self.has_sickbay == 0:
 			return
 		
-		self.status = "Sickbay"
+		# self.status = "Sickbay"
 		sickbay_tasks = [i.station for i in self.sickbay_job_detail]
 
 		for row in self.assembly_job_detail:
@@ -114,7 +114,7 @@ class AssemblyJobCard(Document):
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
-			if row.name not in defects_ref_docnames:
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
 				self.append("qc_defect_detail", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
@@ -125,7 +125,7 @@ class AssemblyJobCard(Document):
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
-			if row.name not in defects_ref_docnames:
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
 				self.append("qc_defect_detail", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
@@ -142,7 +142,7 @@ class AssemblyJobCard(Document):
 		
 	def validate_defects(self):
 		for row in self.qc_defect_detail:
-			if row.status == "Not Ok":
+			if row.status != "Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")
 	
 	def create_qc_job_card(self):
