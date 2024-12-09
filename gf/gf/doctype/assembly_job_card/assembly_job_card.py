@@ -9,6 +9,7 @@ class AssemblyJobCard(Document):
 	def before_save(self):
 		self.set_working_hours()
 		self.add_sickbay_task()
+		self.add_remove_defects_task()	
 	
 	def before_submit(self):
 		self.validate_submit_status()
@@ -91,7 +92,6 @@ class AssemblyJobCard(Document):
 		if self.status not in ["QC", "Bodyshop"]:
 			frappe.throw("Only Job Card with QC/Bodyshop status can be submitted, Please inform the QC/Bodyshop team to check the truck")
 
-
 	@frappe.whitelist()
 	def get_checklist(self, checklist_id):
 		checklist = []
@@ -101,3 +101,39 @@ class AssemblyJobCard(Document):
 				"task": row.get("task")
 			})
 		return checklist
+
+	def add_remove_defects(self):
+		defects_qc = []
+		defects_ref_docnames = [row.ref_docname for row in self.qc_defect_detail]
+
+		for row in self.quality_check_detail:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames:
+				self.append("qc_defect_detail", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"task": row.task
+				})
+
+		for row in self.bodyshop_qc_detail:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames:
+				self.append("qc_defect_detail", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"task": row.task
+				})
+		
+		row_to_remove = []
+		for row in self.qc_defect_detail:
+			if row.ref_docname not in defects_qc:
+				row_to_remove.append(row)
+		
+		for row in row_to_remove:
+			row.delete(ignore_permissions=True, force=True)
+		
+
