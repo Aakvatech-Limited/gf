@@ -43,7 +43,9 @@
   "bodyshop_qc_detail",
   "sickbay_detail_tab",
   "sickbay_job_detail",
-  "sickbay_total_hours"
+  "sickbay_total_hours",
+  "defect_detail_tab",
+  "qc_defect_detail"
  ],
  "fields": [
   {
@@ -280,13 +282,23 @@
    "fieldtype": "Table",
    "label": "Bodyshop QC Detail",
    "options": "Bodyshop QC Detail"
+  },
+  {
+   "fieldname": "defect_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Defect Detail"
+  },
+  {
+   "fieldname": "qc_defect_detail",
+   "fieldtype": "Table",
+   "options": "QC Defect Detail"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-09 19:09:44.929248",
+ "modified": "2024-12-09 19:26:13.003862",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
