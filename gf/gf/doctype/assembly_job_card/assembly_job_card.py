@@ -87,8 +87,17 @@ class AssemblyJobCard(Document):
                     "ref_docname": d.name
                 })
 
-	
 	def validate_submit_status(self):
 		if self.status not in ["QC", "Bodyshop"]:
 			frappe.throw("Only Job Card with QC/Bodyshop status can be submitted, Please inform the QC/Bodyshop team to check the truck")
 
+
+	@frappe.whitelist()
+	def get_checklist(self, checklist_id):
+		checklist = []
+		checklist_doc = frappe.get_cached_doc('QC Checklist', checklist_id)
+		for row in checklist_doc.checklist:
+			checklist.append({
+				"task": row.get("task")
+			})
+		return checklist

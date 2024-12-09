@@ -29,6 +29,7 @@
   "assembly_job_detail",
   "assembly_total_hours",
   "section_break_stzcz",
+  "eol_check_list",
   "quality_check_detail",
   "cabinet_detail_tab",
   "section_break_vkcln",
@@ -254,13 +255,19 @@
    "fieldtype": "Float",
    "label": "Total Hours (Bodyshop)",
    "read_only": 1
+  },
+  {
+   "fieldname": "eol_check_list",
+   "fieldtype": "Link",
+   "label": "EOL Check List",
+   "options": "QC Checklist"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-13 13:35:06.689763",
+ "modified": "2024-12-09 18:03:24.347786",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",

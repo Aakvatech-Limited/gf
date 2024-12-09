@@ -55,6 +55,32 @@ frappe.ui.form.on('Assembly Job Card', {
 			}
 		});
 	},
+	checklist: (frm) => {
+		if (frm.doc.checklist) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.checklist,
+				},
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('quality_check_detail');
+
+						r.message.forEach((element) => {
+							frm.add_child('quality_check_detail', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('quality_check_detail');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('quality_check_detail');
+			frm.refresh_field('quality_check_detail');
+		}
+	},
 });
 
 
