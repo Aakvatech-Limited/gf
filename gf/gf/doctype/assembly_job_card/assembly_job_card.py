@@ -142,7 +142,7 @@ class AssemblyJobCard(Document):
 		
 	def validate_defects(self):
 		for row in self.qc_defect_detail:
-			if row.status != "Not Ok":
+			if row.status == "Not Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")
 	
 	def create_qc_job_card(self):

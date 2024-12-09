@@ -6,6 +6,12 @@ from frappe.model.document import Document
 from gf.api.api import create_stock_entry
 
 class QCJobCard(Document):
+	def before_save(self):
+		self.add_remove_defects()
+	
+	def before_submit(self):
+		self.validate_defects()
+	
 	def on_submit(self):
 		self.create_stock_entry()
 		self.create_serial_no()
@@ -55,3 +61,31 @@ class QCJobCard(Document):
 				"task": row.get("task")
 			})
 		return checklist
+	
+	def add_remove_defects(self):
+		defects_qc = []
+		defects_ref_docnames = [row.ref_docname for row in self.qc_defect_items]
+
+		for row in self.job_card_detail:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames:
+				self.append("qc_defect_items", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"task": row.task
+				})
+		
+		row_to_remove = []
+		for row in self.qc_defect_items:
+			if row.ref_docname not in defects_qc:
+				row_to_remove.append(row)
+		
+		for row in row_to_remove:
+			row.delete(ignore_permissions=True, force=True)
+
+	def validate_defects(self):
+		for row in self.qc_defect_items:
+			if row.status == "Not Ok":
+				frappe.throw("Please check the defects section and work on the defects found by QC team")

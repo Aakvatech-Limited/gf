@@ -37,7 +37,9 @@
   "stock_entry",
   "column_break_jhefb",
   "serial_no",
-  "amended_from"
+  "amended_from",
+  "defect_detail_tab",
+  "qc_defect_items"
  ],
  "fields": [
   {
@@ -254,13 +256,24 @@
    "fieldname": "end_odometer_reading",
    "fieldtype": "Data",
    "label": "End Odometer Reading"
+  },
+  {
+   "fieldname": "defect_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Defect Detail"
+  },
+  {
+   "fieldname": "qc_defect_items",
+   "fieldtype": "Table",
+   "label": "Defect Detail",
+   "options": "QC Defect Item"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-09 22:09:45.385795",
+ "modified": "2024-12-09 22:17:01.661198",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",
