@@ -4,41 +4,11 @@
 frappe.ui.form.on('Assembly Job Card', {
 	refresh: (frm) =>{
 		frm.trigger("set_filters");
-		
-		// hide button to add rows
-		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
-
-		// hide button to delete rows
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
-
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
-
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
-
+		frm.trigger("hide_add_remoe_btns");
 	},
-	
 	onload: (frm) => {
 		frm.trigger("set_filters");
-		
-		// hide button to add rows
-		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
-
-		// hide button to delete rows
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
-
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
-
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
+		frm.trigger("hide_add_remoe_btns");
 	},
 	set_filters: (frm) => {
 		frm.set_query('eol_check_list', () => {
@@ -56,6 +26,26 @@ frappe.ui.form.on('Assembly Job Card', {
 				}
 			}
 		});
+	},
+	hide_add_remoe_btns: (frm) => {
+		// hide button to add rows
+		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
+		frm.get_field("qc_defect_detail").grid.cannot_add_rows = true;
+
+		// hide button to delete rows
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
+
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
+
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
+		
+		$("*[data-fieldname='qc_defect_detail']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='qc_defect_detail']").find(".grid-remove-all-rows").hide();
 	},
 	create_quality_check_job_card: (frm) => {
 		frappe.call({
@@ -288,11 +278,13 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 	},
 })
 
+
 frappe.ui.form.on('Job Card QC Detail', {
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
 	},
 })
+
 
 frappe.ui.form.on('Bodyshop QC Detail', {
 	status: (frm, cdt, cdn) => {
@@ -300,7 +292,15 @@ frappe.ui.form.on('Bodyshop QC Detail', {
 	},
 })
 
+
 frappe.ui.form.on('QC Defect Detail', {
+	form_render: (frm, cdt, cdn) => {
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-move-row').hide();
+    },
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
 	},
