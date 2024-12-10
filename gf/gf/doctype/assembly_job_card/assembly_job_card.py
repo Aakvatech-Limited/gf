@@ -158,7 +158,7 @@ class AssemblyJobCard(Document):
 		qc_job_card.company = self.company
 		qc_job_card.posting_date = nowdate()
 		qc_job_card.posting_time = nowtime()
-		qc_job_card.__newname = f"{self.engine_no}/{self.chassis_no}/{self.model}"
+		# qc_job_card.__newname = f"{self.engine_no}/{self.chassis_no}/{self.model}"
 		qc_job_card.save(ignore_permissions=True)
 
 		if qc_job_card.get("name"):
