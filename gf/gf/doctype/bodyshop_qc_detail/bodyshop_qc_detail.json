@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-09 19:08:17.355052",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "task",
+  "status",
+  "worked_by",
+  "defect"
+ ],
+ "fields": [
+  {
+   "fieldname": "task",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Task",
+   "length": 1000
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nOk\nNot Ok",
+   "search_index": 1
+  },
+  {
+   "fieldname": "worked_by",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Worked By",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.status == 'Not Ok'",
+   "fieldname": "defect",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Defect",
+   "mandatory_depends_on": "eval: doc.status == 'Not Ok'"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-09 23:18:07.412417",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Bodyshop QC Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

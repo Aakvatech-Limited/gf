@@ -1,0 +1,353 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-17 09:40:41.259821",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "work_order",
+  "consignee",
+  "column_break_xef0m",
+  "gfa_bol_no",
+  "gfa_batch_no",
+  "column_break_rsbmt",
+  "company",
+  "posting_date",
+  "posting_time",
+  "actions_section",
+  "engine_no",
+  "amended_from",
+  "column_break_fa3vn",
+  "chassis_no",
+  "model",
+  "column_break_4d6ub",
+  "has_sickbay",
+  "status",
+  "assembly_detail_tab",
+  "assembly_job_detail",
+  "assembly_total_hours",
+  "section_break_stzcz",
+  "eol_check_list",
+  "quality_check_detail",
+  "cabinet_detail_tab",
+  "section_break_vkcln",
+  "cabinet_job_detail",
+  "cabinet_total_hours",
+  "bodyshop_detail_tab",
+  "bodyshop_job_detail",
+  "bodyshop_total_hours",
+  "section_break_5eiux",
+  "bs_checklist",
+  "bodyshop_qc_detail",
+  "sickbay_detail_tab",
+  "sickbay_job_detail",
+  "sickbay_total_hours",
+  "defect_detail_tab",
+  "qc_defect_detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Assembly Job Card",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "assembly_work_order.gfa_bol_no",
+   "fieldname": "gfa_bol_no",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "GFA BOL No",
+   "options": "GFA Bol No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "assembly_work_order.gfa_batch_no",
+   "fieldname": "gfa_batch_no",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "GFA Batch No",
+   "options": "GFA Batch No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "engine_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Engine No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "chassis_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chassis No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_rsbmt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_fa3vn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_stzcz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_vkcln",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "work_order",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Work Order",
+   "options": "Assembly Work Order",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Model",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "Posting Time",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Posting Date",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_xef0m",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actions_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "consignee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Consignee",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "assembly_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Assembly Detail "
+  },
+  {
+   "fieldname": "assembly_job_detail",
+   "fieldtype": "Table",
+   "label": "Assembly Job Detail",
+   "options": "Assembly Job Card Detail",
+   "search_index": 1
+  },
+  {
+   "fieldname": "cabinet_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Cabinet Detail"
+  },
+  {
+   "fieldname": "cabinet_job_detail",
+   "fieldtype": "Table",
+   "label": "Cabinet Job Detail",
+   "options": "Cabinet Job Card Detail"
+  },
+  {
+   "fieldname": "quality_check_detail",
+   "fieldtype": "Table",
+   "label": "Quality Check Detail",
+   "options": "Job Card QC Detail"
+  },
+  {
+   "fieldname": "assembly_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Assembly)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cabinet_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Cabinet)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sickbay_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sickbay Detail"
+  },
+  {
+   "fieldname": "sickbay_job_detail",
+   "fieldtype": "Table",
+   "label": "Sickbay Job Detail",
+   "options": "Sickbay Job Card Detail"
+  },
+  {
+   "fieldname": "sickbay_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Sickbay)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nAssembly\nCabinet\nBodyshop\nSickbay\nQC\nCompleted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_4d6ub",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_sickbay",
+   "fieldtype": "Check",
+   "label": "Has Sickbay Tasks"
+  },
+  {
+   "fieldname": "bodyshop_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Bodyshop Detail"
+  },
+  {
+   "fieldname": "bodyshop_job_detail",
+   "fieldtype": "Table",
+   "label": "Bodyshop Job Detail",
+   "options": "Bodyshop Job Card Detail"
+  },
+  {
+   "fieldname": "bodyshop_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Bodyshop)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "eol_check_list",
+   "fieldtype": "Link",
+   "label": "EOL Check List",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "section_break_5eiux",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bs_checklist",
+   "fieldtype": "Link",
+   "label": "BS Checklist",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "bodyshop_qc_detail",
+   "fieldtype": "Table",
+   "label": "Bodyshop QC Detail",
+   "options": "Bodyshop QC Detail"
+  },
+  {
+   "fieldname": "defect_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Defect Detail"
+  },
+  {
+   "fieldname": "qc_defect_detail",
+   "fieldtype": "Table",
+   "options": "QC Defect Detail"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-09 19:26:13.003862",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Assembly Job Card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Pink",
+   "title": "Pending"
+  },
+  {
+   "color": "Cyan",
+   "title": "Assembly"
+  },
+  {
+   "color": "Light Blue",
+   "title": "Cabinet"
+  },
+  {
+   "color": "Pink",
+   "title": "Bodyshop"
+  },
+  {
+   "color": "Orange",
+   "title": "Sickbay"
+  },
+  {
+   "color": "Blue",
+   "title": "QC"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  }
+ ],
+ "track_changes": 1
+}

@@ -1,0 +1,299 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-06 15:52:32.805551",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "assembly_job_card",
+  "work_order",
+  "consignee",
+  "column_break_xef0m",
+  "gfa_bol_no",
+  "gfa_batch_no",
+  "column_break_fa3vn",
+  "engine_no",
+  "chassis_no",
+  "model",
+  "column_break_rsbmt",
+  "company",
+  "posting_date",
+  "posting_time",
+  "section_break_stzcz",
+  "checklist",
+  "checklist_type",
+  "column_break_2vxvw",
+  "start_odometer_reading",
+  "end_odometer_reading",
+  "column_break_wmh0g",
+  "start_datetime",
+  "end_datetime",
+  "total_hours",
+  "section_break_uhsnh",
+  "job_card_detail",
+  "actions_section",
+  "stock_entry",
+  "column_break_jhefb",
+  "serial_no",
+  "amended_from",
+  "defect_detail_tab",
+  "qc_defect_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "assembly_job_card",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Assembly Job Card",
+   "options": "Assembly Job Card",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "work_order",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Work Order",
+   "options": "Assembly Work Order",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "consignee",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Consignee",
+   "options": "Customer",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_xef0m",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "assembly_work_order.gfa_bol_no",
+   "fieldname": "gfa_bol_no",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "GFA BOL No",
+   "options": "GFA Bol No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "assembly_work_order.gfa_batch_no",
+   "fieldname": "gfa_batch_no",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "GFA Batch No",
+   "options": "GFA Batch No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_fa3vn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "engine_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Engine No",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "chassis_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chassis No",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Model",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_rsbmt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Posting Date",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "Posting Time",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "actions_section",
+   "fieldtype": "Section Break",
+   "label": "Reference"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "stock_entry",
+   "fieldtype": "Data",
+   "label": "Stock Entry",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "serial_no",
+   "fieldtype": "Link",
+   "label": "Serial No",
+   "options": "Serial No",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_stzcz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "job_card_detail",
+   "fieldtype": "Table",
+   "label": "Job Card Detail",
+   "options": "QC Job Card Detail"
+  },
+  {
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "label": "Start Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "label": "End Datetime",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_jhefb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "QC Job Card",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_wmh0g",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "checklist_type",
+   "fieldtype": "Data",
+   "label": "Checklist Type",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "checklist",
+   "fieldtype": "Link",
+   "label": "Checklist",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "section_break_uhsnh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_2vxvw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_odometer_reading",
+   "fieldtype": "Data",
+   "label": "Start Odometer Reading"
+  },
+  {
+   "fieldname": "end_odometer_reading",
+   "fieldtype": "Data",
+   "label": "End Odometer Reading"
+  },
+  {
+   "fieldname": "defect_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Defect Detail"
+  },
+  {
+   "fieldname": "qc_defect_items",
+   "fieldtype": "Table",
+   "label": "Defect Detail",
+   "options": "QC Defect Item"
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-09 22:17:01.661198",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "QC Job Card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
