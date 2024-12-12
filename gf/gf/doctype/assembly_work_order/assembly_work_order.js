@@ -55,5 +55,52 @@ frappe.ui.form.on('Assembly Work Order', {
 				}
 			}
 		});
+		frm.set_query("chassis_number", "work_order_detail", () => {
+			return {
+				filters: {
+					"gfa_bol_no": frm.doc.gfa_bol_no,
+					"gfa_item_type": "Chassis Number",
+				}
+			}
+		});
+		frm.set_query("engine_number", "work_order_detail", () => {
+			return {
+				filters: {
+					"gfa_bol_no": frm.doc.gfa_bol_no,
+					"gfa_item_type": "Engine Number",
+				}
+			}
+		});
 	},
+	gfa_bol_no: (frm) => {
+		if (frm.doc.gfa_bol_no) {
+			frappe.call({
+                method: "get_chassis_and_engine_no",
+				doc: frm.doc,
+                args: {
+                    gfa_bol_no: frm.doc.gfa_bol_no
+                },
+				freeze: true,
+                callback: (r) => {
+                    if (r.message) {
+						frm.clear_table("work_order_detail");
+
+						r.message.forEach((d) => {
+							frm.add_child("work_order_detail", {
+								"chassis_number": d.chassis_number,
+								"engine_number": d.engine_number,
+							});
+						});
+						frm.refresh_field("work_order_detail");
+                    } else {
+                        frm.clear_table("work_order_detail");
+						frm.refresh_field("work_order_detail");
+                    }
+                }
+            });
+		} else {
+			frm.clear_table("work_order_detail");
+			frm.refresh_field("work_order_detail");
+		}
+	}
 });

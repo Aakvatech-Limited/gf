@@ -111,3 +111,21 @@ class AssemblyWorkOrder(Document):
 			create_assembly_job_card(self, row)
 			# if self.cabinet_default_bom:
 			# 	create_assembly_job_card(self, row, "CAB")
+
+	
+	@frappe.whitelist()
+	def get_chassis_and_engine_no(self, gfa_bol_no):
+		if not gfa_bol_no:
+			return
+		
+		chassis_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Chassis Number"})
+		engine_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Engine Number"})
+
+		items = []
+
+		for i in range(min(len(chassis_numbers), len(engine_numbers))):
+			chassis_number = chassis_numbers[i]['name']
+			engine_number = engine_numbers[i]['name']
+			items.append({"chassis_number": chassis_number, "engine_number": engine_number})
+		
+		return items
