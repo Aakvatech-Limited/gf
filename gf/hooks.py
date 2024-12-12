@@ -112,24 +112,13 @@ after_migrate = [
 
 # Scheduled Tasks
 # ---------------
-
-# scheduler_events = {
-# 	"all": [
-# 		"gf.tasks.all"
-# 	],
-# 	"daily": [
-# 		"gf.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"gf.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"gf.tasks.weekly"
-# 	]
-# 	"monthly": [
-# 		"gf.tasks.monthly"
-# 	]
-# }
+scheduler_events = {
+    "cron": {
+        "*/3 * * * *": [
+            "gf.api.serial_no.update_gfa_bol_no",
+        ]
+    }
+}
 
 # Testing
 # -------
