@@ -38,6 +38,12 @@ app_license = "MIT"
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
+doctype_list_js = {
+    "Custom Field": "icd_tz/patches/custom_field.js",
+    "Property Setter": "icd_tz/patches/property_setter.js",
+}
+
+
 # Home Pages
 # ----------
 
@@ -60,6 +66,11 @@ app_license = "MIT"
 
 # before_install = "gf.install.before_install"
 # after_install = "gf.install.after_install"
+
+after_migrate = [
+    "gf.patches.create_custom_fields.execute",
+    "gf.patches.create_property_setters.execute",
+]
 
 # Desk Notifications
 # ------------------
