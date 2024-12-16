@@ -150,7 +150,29 @@ class AssemblyJobCard(Document):
 					"task": row.task
 				})
 
+		for row in self.cab_stations:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
+				self.append("qc_defects", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"task": row.task
+				})
+		
 		for row in self.bs_ps_qc_checklist:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
+				self.append("qc_defects", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"task": row.task
+				})
+		
+		for row in self.sickbay_qc_checklist:
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
