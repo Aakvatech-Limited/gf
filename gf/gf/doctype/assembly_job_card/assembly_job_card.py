@@ -22,11 +22,11 @@ class AssemblyJobCard(Document):
 
 	def set_working_hours(self):
 		self.assembly_total_hours = 0
-		self.cabinet_total_hours = 0
-		self.bodyshop_total_hours = 0
+		self.cab_total_hours = 0
+		self.bs_ps_total_hours = 0
 		self.sickbay_total_hours = 0
 		
-		for row in self.assembly_job_detail:
+		for row in self.assembly_stations:
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
 				self.assembly_total_hours += row.total_time_elapsed
@@ -35,25 +35,25 @@ class AssemblyJobCard(Document):
 				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
 				self.assembly_total_hours += row.total_time_elapsed
 		
-		for row in self.cabinet_job_detail:
+		for row in self.cab_stations:
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
-				self.cabinet_total_hours += row.total_time_elapsed
+				self.cab_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
-				self.cabinet_total_hours += row.total_time_elapsed
+				self.cab_total_hours += row.total_time_elapsed
 		
-		for row in self.bodyshop_job_detail:
+		for row in self.bs_ps_stations:
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
-				self.bodyshop_total_hours += row.total_time_elapsed
+				self.bs_ps_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
-				self.bodyshop_total_hours += row.total_time_elapsed
+				self.bs_ps_total_hours += row.total_time_elapsed
 		
-		for row in self.sickbay_job_detail:
+		for row in self.sickbay_stations:
 			if row.start_datetime and row.end_datetime:
 				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
 				self.sickbay_total_hours += row.total_time_elapsed
@@ -63,29 +63,29 @@ class AssemblyJobCard(Document):
 			return
 		
 		# self.status = "Sickbay"
-		sickbay_tasks = [i.station for i in self.sickbay_job_detail]
+		sickbay_tasks = [i.station for i in self.sickbay_stations]
 
-		for row in self.assembly_job_detail:
+		for row in self.assembly_stations:
 			if row.station not in sickbay_tasks and row.pending_datetime and not row.end_datetime:
-				self.append("sickbay_job_detail", {
+				self.append("sickbay_stations", {
 					"station": row.station,
 					"pending_tasks": row.pending_tasks,
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name
 				})
 		
-		for d in self.cabinet_job_detail:
+		for d in self.cab_stations:
 			if d.station not in sickbay_tasks and d.pending_datetime and not d.end_datetime:
-				self.append("sickbay_job_detail", {
+				self.append("sickbay_stations", {
                     "station": d.station,
                     "pending_tasks": d.pending_tasks,
                     "ref_doctype": d.doctype,
                     "ref_docname": d.name
                 })
 		
-		for d in self.bodyshop_job_detail:
+		for d in self.bs_ps_stations:
 			if d.station not in sickbay_tasks and d.pending_datetime and not d.end_datetime:
-				self.append("sickbay_job_detail", {
+				self.append("sickbay_stations", {
                     "station": d.station,
                     "pending_tasks": d.pending_tasks,
                     "ref_doctype": d.doctype,
@@ -108,32 +108,32 @@ class AssemblyJobCard(Document):
 
 	def add_remove_defects(self):
 		defects_qc = []
-		defects_ref_docnames = [row.ref_docname for row in self.qc_defect_detail]
+		defects_ref_docnames = [row.ref_docname for row in self.qc_defects]
 
-		for row in self.quality_check_detail:
+		for row in self.assembly_qc_checklist:
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
 			if row.name not in defects_ref_docnames and row.status == "Not Ok":
-				self.append("qc_defect_detail", {
+				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
 					"task": row.task
 				})
 
-		for row in self.bodyshop_qc_detail:
+		for row in self.bs_ps_qc_checklist:
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
 			if row.name not in defects_ref_docnames and row.status == "Not Ok":
-				self.append("qc_defect_detail", {
+				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
 					"task": row.task
 				})
 		
 		row_to_remove = []
-		for row in self.qc_defect_detail:
+		for row in self.qc_defects:
 			if row.ref_docname not in defects_qc:
 				row_to_remove.append(row)
 		
@@ -141,7 +141,7 @@ class AssemblyJobCard(Document):
 			row.delete(ignore_permissions=True, force=True)
 		
 	def validate_defects(self):
-		for row in self.qc_defect_detail:
+		for row in self.qc_defects:
 			if row.status != "Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")
 	
