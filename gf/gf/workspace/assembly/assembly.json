@@ -1,0 +1,203 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"4qrr_j62en\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Truck Assembly</span>\",\"col\":12}},{\"id\":\"WFPDqRy_nR\",\"type\":\"card\",\"data\":{\"card_name\":\"Production\",\"col\":6}},{\"id\":\"NAK8Z2BGyE\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Check\",\"col\":5}},{\"id\":\"QFxRRYLqc8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0JYxbnQ0Kb\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"jICmPNpF7O\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Prerequisite<b></b></span>\",\"col\":12}},{\"id\":\"xXTWTDpvxR\",\"type\":\"card\",\"data\":{\"card_name\":\"Items & Bom\",\"col\":3}},{\"id\":\"suTUjvKWfq\",\"type\":\"card\",\"data\":{\"card_name\":\"GFA Specific\",\"col\":3}},{\"id\":\"06k47zPuCh\",\"type\":\"card\",\"data\":{\"card_name\":\"Stock\",\"col\":3}},{\"id\":\"ceWFAi1DZS\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":3}}]",
+ "creation": "2024-12-16 12:50:22.658623",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "getting-started",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Assembly",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Production",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Assembly Work Order",
+   "link_count": 0,
+   "link_to": "Assembly Work Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Assembly Job Card",
+   "link_count": 0,
+   "link_to": "Assembly Job Card",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Check",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Qc Job Card",
+   "link_count": 0,
+   "link_to": "QC Job Card",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Qc templates",
+   "link_count": 0,
+   "link_to": "QC Checklist",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GFA Specific",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GFA Bol No",
+   "link_count": 0,
+   "link_to": "GFA Bol No",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GFA Batch No",
+   "link_count": 0,
+   "link_to": "GFA Batch No",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Entry",
+   "link_count": 0,
+   "link_to": "Stock Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Serial No",
+   "link_count": 0,
+   "link_to": "Serial No",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Ledger",
+   "link_count": 0,
+   "link_to": "Stock Ledger",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Stock Balance",
+   "link_count": 0,
+   "link_to": "Stock Balance",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Items & Bom",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "BOM",
+   "link_count": 0,
+   "link_to": "BOM",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-12-16 13:23:55.189747",
+ "modified_by": "Administrator",
+ "module": "GF",
+ "name": "Assembly",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 0.0,
+ "shortcuts": [],
+ "title": "Assembly"
+}
