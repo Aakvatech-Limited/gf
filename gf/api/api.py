@@ -1,4 +1,5 @@
 import frappe
+from frappe.query_builder import DocType
 from frappe.utils import nowdate, nowtime, get_url_to_form
 
 def create_stock_entry(data):
@@ -19,9 +20,9 @@ def create_stock_entry(data):
     stock_entry = frappe.new_doc("Stock Entry")
     stock_entry.purpose = data.get("purpose")
     stock_entry.stock_entry_type = data.get("stock_entry_type")
-    # stock_entry.from_warehouse = data.get("from_warehouse")
-    # stock_entry.to_warehouse = data.get("to_warehouse")
     stock_entry.company = data.get("company")
+    stock_entry.gfa_bol_no = data.get("gfa_bol_no")
+    stock_entry.gfa_batch_no = data.get("gfa_batch_no")
     stock_entry.posting_date = nowdate()
     stock_entry.posting_time = nowtime()    
     stock_entry.set_posting_time = 1
@@ -33,14 +34,13 @@ def create_stock_entry(data):
     frappe.flags.ignore_account_permissions = True
     stock_entry.set_missing_values()
     stock_entry.save()
-    # stock_entry.submit()
+    stock_entry.submit()
 
     url = get_url_to_form(stock_entry.doctype, stock_entry.name)
     frappe.msgprint(
         f"Stock Entry Created <a href='{url}'>{stock_entry.name}</a>"
     )
     return stock_entry.name
-
 
 def create_assembly_job_card(doc, row):
     doc_dict = doc.as_dict()
@@ -64,15 +64,15 @@ def create_assembly_job_card(doc, row):
 
     
     for i in range(8):
-        card_doc.append("assembly_job_detail", {"station": f"S {i+1}" })
+        card_doc.append("assembly_stations", {"station": f"S {i+1}" })
 
-    card_doc.append("assembly_job_detail", {"station": f"EOL"})
+    card_doc.append("assembly_stations", {"station": f"EOL"})
     
     for i in range(6):
-        card_doc.append("cabinet_job_detail", {"station": f"C {i+1}" })
+        card_doc.append("cab_stations", {"station": f"C {i+1}" })
 
     for i in range(1):
-        card_doc.append("bodyshop_job_detail", {"station": f"B {i+1}" })
+        card_doc.append("bs_ps_stations", {"station": f"B {i+1}" })
 
     card_doc.__newname = f"{card_doc.engine_no}/{card_doc.chassis_no}/{card_doc.model}"
 
@@ -141,6 +141,29 @@ def create_body_shop_or_qc_card(doc_type, doc_name, card_type):
         doc.has_quality_check = 1
         doc.db_update()
         return card_doc.name
+
+def get_stock_availability(item_code, warehouse):
+    sle = DocType("Stock Ledger Entry")
+    latest_sle = (
+        frappe.qb.from_(sle)
+        .select(
+            sle.qty_after_transaction.as_("actual_qty"),
+            sle.posting_date,
+            sle.posting_time,
+            sle.name,
+        )
+        .where(
+            (sle.item_code == item_code)
+            & (sle.warehouse == warehouse)
+            & (sle.is_cancelled == 0)
+            & (sle.docstatus < 2)
+        )
+        .orderby(sle.posting_datetime, order=frappe.qb.desc)
+        .limit(1)
+    ).run(as_dict=True)
+
+    sle_qty = latest_sle[0].actual_qty or 0 if latest_sle else 0
+    return sle_qty
 
 def get_fields_to_clear():
     return [ "doctype", "owner", "creation", "modified", "modified_by", "docstatus", "name", "parent", "parentfield", "parenttype", "idx", "amended_from"]
