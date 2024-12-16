@@ -211,8 +211,9 @@
   {
    "default": "Assembly Checklist",
    "fieldname": "assembly_qc_template",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Assembly QC Template",
+   "options": "QC Checklist",
    "search_index": 1
   },
   {
@@ -335,7 +336,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-16 11:03:32.482194",
+ "modified": "2024-12-16 12:26:17.994233",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
