@@ -4,48 +4,33 @@
 frappe.ui.form.on('Assembly Job Card', {
 	refresh: (frm) =>{
 		frm.trigger("set_filters");
-		frm.trigger("hide_add_remoe_btns");
+		frm.trigger("hide_add_remove_btns");
 	},
 	onload: (frm) => {
 		frm.trigger("set_filters");
-		frm.trigger("hide_add_remoe_btns");
+		frm.trigger("hide_add_remove_btns");
 	},
 	set_filters: (frm) => {
-		frm.set_query('eol_check_list', () => {
-			return {
-				filters: {
-					'type': 'EOL'
-				}
-			}
-		});
-
-		frm.set_query('bs_checklist', () => {
-			return {
-				filters: {
-					'type': 'Body'
-				}
-			}
-		});
 	},
-	hide_add_remoe_btns: (frm) => {
+	hide_add_remove_btns: (frm) => {
 		// hide button to add rows
-		frm.get_field("assembly_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("cabinet_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("sickbay_job_detail").grid.cannot_add_rows = true;
-		frm.get_field("qc_defect_detail").grid.cannot_add_rows = true;
+		frm.get_field("assembly_stations").grid.cannot_add_rows = true;
+		frm.get_field("cab_stations").grid.cannot_add_rows = true;
+		frm.get_field("sickbay_stations").grid.cannot_add_rows = true;
+		frm.get_field("qc_defects").grid.cannot_add_rows = true;
 
 		// hide button to delete rows
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='assembly_job_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='assembly_stations']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='assembly_stations']").find(".grid-remove-all-rows").hide();
 
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='cabinet_job_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='cab_stations']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='cab_stations']").find(".grid-remove-all-rows").hide();
 
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='sickbay_job_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='sickbay_stations']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='sickbay_stations']").find(".grid-remove-all-rows").hide();
 		
-		$("*[data-fieldname='qc_defect_detail']").find(".grid-remove-rows").hide();
-		$("*[data-fieldname='qc_defect_detail']").find(".grid-remove-all-rows").hide();
+		$("*[data-fieldname='qc_defects']").find(".grid-remove-rows").hide();
+		$("*[data-fieldname='qc_defects']").find(".grid-remove-all-rows").hide();
 	},
 	create_quality_check_job_card: (frm) => {
 		frappe.call({
@@ -66,72 +51,20 @@ frappe.ui.form.on('Assembly Job Card', {
 			}
 		});
 	},
-	eol_check_list: (frm) => {
-		if (frm.doc.eol_check_list) {
-			frappe.call({
-				method: 'get_checklist',
-				doc: frm.doc,
-				args: {
-					checklist_id: frm.doc.eol_check_list,
-				},
-				callback: (r) => {
-					if (r.message) {
-						frm.clear_table('quality_check_detail');
-
-						r.message.forEach((element) => {
-							frm.add_child('quality_check_detail', {
-                                'task': element.task,
-                            });
-						});
-						frm.refresh_field('quality_check_detail');
-					}
-				}
-			});
-		} else {
-			frm.clear_table('quality_check_detail');
-			frm.refresh_field('quality_check_detail');
-		}
-	},
-	bs_checklist: (frm) => {
-		if (frm.doc.bs_checklist) {
-			frappe.call({
-				method: 'get_checklist',
-				doc: frm.doc,
-				args: {
-					checklist_id: frm.doc.bs_checklist,
-				},
-				callback: (r) => {
-					if (r.message) {
-						frm.clear_table('bodyshop_qc_detail');
-
-						r.message.forEach((element) => {
-							frm.add_child('bodyshop_qc_detail', {
-                                'task': element.task,
-                            });
-						});
-						frm.refresh_field('bodyshop_qc_detail');
-					}
-				}
-			});
-		} else {
-			frm.clear_table('bodyshop_qc_detail');
-			frm.refresh_field('bodyshop_qc_detail');
-		}
-	},
 });
 
 
 frappe.ui.form.on('Assembly Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
-		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-		frm.fields_dict.assembly_job_detail.grid.wrapper.find('.grid-move-row').hide();
+		frm.fields_dict.assembly_stations.grid.wrapper.find('.grid-delete-row').hide();
+		frm.fields_dict.assembly_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+		frm.fields_dict.assembly_stations.grid.wrapper.find('.grid-insert-row').hide();
+		frm.fields_dict.assembly_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+		frm.fields_dict.assembly_stations.grid.wrapper.find('.grid-move-row').hide();
 	},
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
-		frm.refresh_field('assembly_job_detail');
+		frm.refresh_field('assembly_stations');
 		frm.set_value('status', 'Assembly');
 		frm.save();
 	},
@@ -143,7 +76,7 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			let assembly_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assembly_p_total_time_elapsed);
 		}
-		frm.refresh_field('assembly_job_detail');
+		frm.refresh_field('assembly_stations');
 		frm.set_value('status', 'Assembly');
 		if (row.pending_tasks) {
 			frm.save();
@@ -157,7 +90,7 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			let assmbly_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assmbly_end_total_time_elapsed)
 		}
-		frm.refresh_field('assembly_job_detail');
+		frm.refresh_field('assembly_stations');
 		frm.set_value('status', 'Assembly');
 		frm.save();
 	},
@@ -166,15 +99,15 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 
 frappe.ui.form.on('Cabinet Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
-        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-        frm.fields_dict.cabinet_job_detail.grid.wrapper.find('.grid-move-row').hide();
+        frm.fields_dict.cab_stations.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.cab_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.cab_stations.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.cab_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.cab_stations.grid.wrapper.find('.grid-move-row').hide();
     },
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
-		frm.refresh_field('cabinet_job_detail');
+		frm.refresh_field('cab_stations');
 		frm.set_value('status', 'Cabinet');
 		frm.save();
 	},	
@@ -187,7 +120,7 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_p_time_elapsed);
 		}
 
-        frm.refresh_field('cabinet_job_detail');
+        frm.refresh_field('cab_stations');
 		frm.set_value('status', 'Cabinet');
 		if (row.pending_tasks) {
 			frm.save();
@@ -202,7 +135,7 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_end_total_time_elapsed);
 		}
 
-        frm.refresh_field('cabinet_job_detail');
+        frm.refresh_field('cab_stations');
 		frm.set_value('status', 'Cabinet');
         frm.save();
 	},
@@ -211,15 +144,15 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 
 frappe.ui.form.on('Bodyshop Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
-		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-		frm.fields_dict.bodyshop_job_detail.grid.wrapper.find('.grid-move-row').hide();
+		frm.fields_dict.bs_ps_stations.grid.wrapper.find('.grid-delete-row').hide();
+		frm.fields_dict.bs_ps_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+		frm.fields_dict.bs_ps_stations.grid.wrapper.find('.grid-insert-row').hide();
+		frm.fields_dict.bs_ps_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+		frm.fields_dict.bs_ps_stations.grid.wrapper.find('.grid-move-row').hide();
 	},
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
-		frm.refresh_field('bodyshop_job_detail');
+		frm.refresh_field('bs_ps_stations');
 		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
@@ -231,7 +164,7 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 			let body_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_p_total_time_elapsed);
 		}
-		frm.refresh_field('bodyshop_job_detail');
+		frm.refresh_field('bs_ps_stations');
 		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
@@ -243,7 +176,7 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 			let body_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_end_total_time_elapsed)
 		}
-		frm.refresh_field('bodyshop_job_detail');
+		frm.refresh_field('bs_ps_stations');
 		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
@@ -252,15 +185,15 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 
 frappe.ui.form.on('Sickbay Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-move-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-move-row').hide();
     },
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
-		frm.refresh_field('sickbay_job_detail');
+		frm.refresh_field('sickbay_stations');
 		frm.set_value('status', 'Sickbay');
 		frm.save();
 	},
@@ -272,7 +205,7 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 		if (row.ref_doctype && row.ref_docname) {
 			frappe.model.set_value(row.ref_doctype, row.ref_docname, 'end_datetime', now_datetime);
 		}
-		frm.refresh_field('sickbay_job_detail');
+		frm.refresh_field('sickbay_stations');
 		frm.set_value('status', 'Sickbay');
 		frm.save();
 	},
@@ -301,11 +234,11 @@ frappe.ui.form.on('Bodyshop QC Detail', {
 
 frappe.ui.form.on('QC Defect Detail', {
 	form_render: (frm, cdt, cdn) => {
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-move-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-move-row').hide();
     },
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');

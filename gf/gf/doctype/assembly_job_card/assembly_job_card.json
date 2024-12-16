@@ -25,27 +25,32 @@
   "column_break_4d6ub",
   "has_sickbay",
   "status",
-  "assembly_detail_tab",
-  "assembly_job_detail",
+  "assembly_tab",
+  "assembly_stations",
   "assembly_total_hours",
   "section_break_stzcz",
-  "eol_check_list",
-  "quality_check_detail",
-  "cabinet_detail_tab",
-  "section_break_vkcln",
-  "cabinet_job_detail",
-  "cabinet_total_hours",
-  "bodyshop_detail_tab",
-  "bodyshop_job_detail",
-  "bodyshop_total_hours",
+  "assembly_qc_template",
+  "assembly_qc_checklist",
+  "cab_tab",
+  "cab_stations",
+  "cab_total_hours",
+  "section_break_qii6f",
+  "cab_qc_template",
+  "cab_qc_checklist",
+  "bs_ps_tab",
+  "bs_ps_stations",
+  "bs_ps_total_hours",
   "section_break_5eiux",
-  "bs_checklist",
-  "bodyshop_qc_detail",
-  "sickbay_detail_tab",
-  "sickbay_job_detail",
+  "bs_ps_qc_template",
+  "bs_ps_qc_checklist",
+  "sickbay_tab",
+  "sickbay_stations",
   "sickbay_total_hours",
-  "defect_detail_tab",
-  "qc_defect_detail"
+  "section_break_oc9ze",
+  "sickbay_qc_template",
+  "sickbay_qc_checklist",
+  "defect_tab",
+  "qc_defects"
  ],
  "fields": [
   {
@@ -109,10 +114,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "section_break_vkcln",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "work_order",
    "fieldtype": "Link",
    "in_standard_filter": 1,
@@ -170,56 +171,10 @@
    "options": "Customer"
   },
   {
-   "fieldname": "assembly_detail_tab",
-   "fieldtype": "Tab Break",
-   "label": "Assembly Detail "
-  },
-  {
-   "fieldname": "assembly_job_detail",
-   "fieldtype": "Table",
-   "label": "Assembly Job Detail",
-   "options": "Assembly Job Card Detail",
-   "search_index": 1
-  },
-  {
-   "fieldname": "cabinet_detail_tab",
-   "fieldtype": "Tab Break",
-   "label": "Cabinet Detail"
-  },
-  {
-   "fieldname": "cabinet_job_detail",
-   "fieldtype": "Table",
-   "label": "Cabinet Job Detail",
-   "options": "Cabinet Job Card Detail"
-  },
-  {
-   "fieldname": "quality_check_detail",
-   "fieldtype": "Table",
-   "label": "Quality Check Detail",
-   "options": "Job Card QC Detail"
-  },
-  {
    "fieldname": "assembly_total_hours",
    "fieldtype": "Float",
    "label": "Total Hours (Assembly)",
    "read_only": 1
-  },
-  {
-   "fieldname": "cabinet_total_hours",
-   "fieldtype": "Float",
-   "label": "Total Hours (Cabinet)",
-   "read_only": 1
-  },
-  {
-   "fieldname": "sickbay_detail_tab",
-   "fieldtype": "Tab Break",
-   "label": "Sickbay Detail"
-  },
-  {
-   "fieldname": "sickbay_job_detail",
-   "fieldtype": "Table",
-   "label": "Sickbay Job Detail",
-   "options": "Sickbay Job Card Detail"
   },
   {
    "fieldname": "sickbay_total_hours",
@@ -245,51 +200,133 @@
    "label": "Has Sickbay Tasks"
   },
   {
-   "fieldname": "bodyshop_detail_tab",
-   "fieldtype": "Tab Break",
-   "label": "Bodyshop Detail"
-  },
-  {
-   "fieldname": "bodyshop_job_detail",
-   "fieldtype": "Table",
-   "label": "Bodyshop Job Detail",
-   "options": "Bodyshop Job Card Detail"
-  },
-  {
-   "fieldname": "bodyshop_total_hours",
-   "fieldtype": "Float",
-   "label": "Total Hours (Bodyshop)",
-   "read_only": 1
-  },
-  {
-   "fieldname": "eol_check_list",
-   "fieldtype": "Link",
-   "label": "EOL Check List",
-   "options": "QC Checklist"
-  },
-  {
    "fieldname": "section_break_5eiux",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "bs_checklist",
-   "fieldtype": "Link",
-   "label": "BS Checklist",
-   "options": "QC Checklist"
+   "fieldname": "cab_tab",
+   "fieldtype": "Tab Break",
+   "label": "Cab"
   },
   {
-   "fieldname": "bodyshop_qc_detail",
+   "default": "Assembly Checklist",
+   "fieldname": "assembly_qc_template",
+   "fieldtype": "Data",
+   "label": "Assembly QC Template",
+   "search_index": 1
+  },
+  {
+   "fieldname": "assembly_qc_checklist",
    "fieldtype": "Table",
-   "label": "Bodyshop QC Detail",
+   "label": " Assembly QC Checklist",
+   "options": "Job Card QC Detail"
+  },
+  {
+   "fieldname": "section_break_qii6f",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Cab Checklist",
+   "fieldname": "cab_qc_template",
+   "fieldtype": "Link",
+   "label": "Cab QC Template",
+   "options": "QC Checklist",
+   "search_index": 1
+  },
+  {
+   "fieldname": "cab_qc_checklist",
+   "fieldtype": "Table",
+   "label": "Cab QC Checklist",
+   "options": "Cab QC Detail"
+  },
+  {
+   "fieldname": "section_break_oc9ze",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Sickbay Checklist",
+   "fieldname": "sickbay_qc_template",
+   "fieldtype": "Link",
+   "label": "Sickbay QC Template",
+   "options": "QC Checklist",
+   "search_index": 1
+  },
+  {
+   "fieldname": "sickbay_qc_checklist",
+   "fieldtype": "Table",
+   "label": "Sickbay QC Checklist",
+   "options": "Sickbay QC Detail"
+  },
+  {
+   "fieldname": "assembly_tab",
+   "fieldtype": "Tab Break",
+   "label": "Assembly"
+  },
+  {
+   "fieldname": "bs_ps_tab",
+   "fieldtype": "Tab Break",
+   "label": "Bs & Ps"
+  },
+  {
+   "fieldname": "assembly_stations",
+   "fieldtype": "Table",
+   "label": "Assembly Stations",
+   "options": "Assembly Job Card Detail"
+  },
+  {
+   "fieldname": "cab_stations",
+   "fieldtype": "Table",
+   "label": "Cab Stations",
+   "options": "Cabinet Job Card Detail"
+  },
+  {
+   "fieldname": "cab_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Cab)"
+  },
+  {
+   "fieldname": "bs_ps_stations",
+   "fieldtype": "Table",
+   "label": "Bs & Ps stations",
+   "options": "Bodyshop Job Card Detail"
+  },
+  {
+   "fieldname": "bs_ps_total_hours",
+   "fieldtype": "Data",
+   "label": "Total Hours (Bs & Ps)"
+  },
+  {
+   "default": "Bs & Ps Checklist",
+   "fieldname": "bs_ps_qc_template",
+   "fieldtype": "Link",
+   "label": "Bs & Ps QC Template",
+   "options": "QC Checklist",
+   "search_index": 1
+  },
+  {
+   "fieldname": "bs_ps_qc_checklist",
+   "fieldtype": "Table",
+   "label": "Bs & Ps QC Checklist",
    "options": "Bodyshop QC Detail"
   },
   {
-   "fieldname": "defect_detail_tab",
+   "fieldname": "sickbay_tab",
    "fieldtype": "Tab Break",
-   "label": "Defect Detail"
+   "label": "Sickbay"
   },
   {
-   "fieldname": "qc_defect_detail",
+   "fieldname": "sickbay_stations",
+   "fieldtype": "Table",
+   "label": "Sickbay Stations",
+   "options": "Sickbay Job Card Detail"
+  },
+  {
+   "fieldname": "defect_tab",
+   "fieldtype": "Tab Break",
+   "label": "Defect"
+  },
+  {
+   "fieldname": "qc_defects",
    "fieldtype": "Table",
    "options": "QC Defect Detail"
   }
@@ -298,7 +335,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-09 19:26:13.003862",
+ "modified": "2024-12-16 11:03:32.482194",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
