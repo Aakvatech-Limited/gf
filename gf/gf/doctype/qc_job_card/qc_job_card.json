@@ -23,7 +23,6 @@
   "posting_time",
   "section_break_stzcz",
   "checklist",
-  "checklist_type",
   "column_break_2vxvw",
   "start_odometer_reading",
   "end_odometer_reading",
@@ -227,13 +226,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "checklist_type",
-   "fieldtype": "Data",
-   "label": "Checklist Type",
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
    "fieldname": "checklist",
    "fieldtype": "Link",
    "label": "Checklist",
@@ -273,7 +265,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-09 22:17:01.661198",
+ "modified": "2024-12-16 00:53:09.231207",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",

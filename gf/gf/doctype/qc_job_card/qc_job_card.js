@@ -3,10 +3,21 @@
 
 frappe.ui.form.on('QC Job Card', {
 	refresh: (frm) => {
-		frm.trigger('hide_add_remoe_btns');
+		frm.trigger('set_filters');
+		frm.trigger('hide_add_remove_btns');
 	},
 	onload: (frm) => {
-		frm.trigger('hide_add_remoe_btns');
+		frm.trigger('set_filters');
+		frm.trigger('hide_add_remove_btns');
+	},
+	set_filters: (frm) => {
+		frm.set_query("checklist", () => {
+			return {
+				filters: {
+					"name": ["in", ["Dynamic Checklist", "Static Checklist"]]
+				}
+			}
+		})
 	},
 	checklist: (frm) => {
 		if (frm.doc.checklist) {
@@ -34,7 +45,7 @@ frappe.ui.form.on('QC Job Card', {
 			frm.refresh_field('job_card_detail');
 		}
 	},
-	hide_add_remoe_btns: (frm) => {
+	hide_add_remove_btns: (frm) => {
 		// hide button to add rows
 		frm.get_field("qc_defect_items").grid.cannot_add_rows = true;
 
@@ -47,11 +58,11 @@ frappe.ui.form.on('QC Job Card', {
 
 frappe.ui.form.on('QC Defect Item', {
 	form_render: (frm, cdt, cdn) => {
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-delete-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row-below').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-insert-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-duplicate-row').hide();
-        frm.fields_dict.sickbay_job_detail.grid.wrapper.find('.grid-move-row').hide();
+        frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.job_card_detail.grid.wrapper.find('.grid-move-row').hide();
     },
 	status: (frm, cdt, cdn) => {
 		let row = frappe.get_doc(cdt, cdn);
