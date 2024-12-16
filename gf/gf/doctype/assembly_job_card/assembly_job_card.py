@@ -6,6 +6,11 @@ from frappe.model.document import Document
 from frappe.utils import time_diff_in_hours, nowdate, nowtime, get_url_to_form
 
 class AssemblyJobCard(Document):
+	def after_insert(self):
+		self.get_checklist_from_templates()
+
+		self.save(ignore_permissions=True)
+
 	def before_save(self):
 		self.set_working_hours()
 		self.add_sickbay_task()
@@ -62,7 +67,6 @@ class AssemblyJobCard(Document):
 		if self.has_sickbay == 0:
 			return
 		
-		# self.status = "Sickbay"
 		sickbay_tasks = [i.station for i in self.sickbay_stations]
 
 		for row in self.assembly_stations:
@@ -95,6 +99,31 @@ class AssemblyJobCard(Document):
 	def validate_submit_status(self):
 		if self.status not in ["QC", "Bodyshop"]:
 			frappe.throw("Only Job Card with QC/Bodyshop status can be submitted, Please inform the QC/Bodyshop team to check the truck")
+
+	def get_checklist_from_templates(self):
+		if self.assembly_qc_template:
+			for row in self.get_checklist(self.assembly_qc_template):
+				self.append("assembly_qc_checklist", {
+					"task": row.get("task")
+				})
+		
+		if self.cab_qc_template:
+			for row in self.get_checklist(self.cab_qc_template):
+				self.append("cab_qc_checklist", {
+                    "task": row.get("task")
+                })
+		
+		if self.bs_ps_qc_template:
+			for row in self.get_checklist(self.bs_ps_qc_template):
+				self.append("bs_ps_qc_checklist", {
+                    "task": row.get("task")
+                })
+		
+		if self.sickbay_qc_template:
+			for row in self.get_checklist(self.sickbay_qc_template):
+				self.append("sickbay_qc_checklist", {
+                    "task": row.get("task")
+                })
 
 	@frappe.whitelist()
 	def get_checklist(self, checklist_id):

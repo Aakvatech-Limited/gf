@@ -51,6 +51,111 @@ frappe.ui.form.on('Assembly Job Card', {
 			}
 		});
 	},
+
+	assembly_qc_template: (frm) => {
+		if (frm.doc.assembly_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.assembly_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('assembly_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('assembly_qc_checklist', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('assembly_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('assembly_qc_checklist');
+			frm.refresh_field('assembly_qc_checklist');
+		}
+	},
+	cab_qc_template: (frm) => {
+		if (frm.doc.cab_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.cab_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('cab_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('cab_qc_checklist', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('cab_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('cab_qc_checklist');
+			frm.refresh_field('cab_qc_checklist');
+		}
+	},
+	bs_ps_qc_template: (frm) => {
+		if (frm.doc.bs_ps_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.bs_ps_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('bs_ps_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('bs_ps_qc_checklist', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('bs_ps_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('bs_ps_qc_checklist');
+			frm.refresh_field('bs_ps_qc_checklist');
+		}
+	},
+	sickbay_qc_template: (frm) => {
+		if (frm.doc.sickbay_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.sickbay_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('sickbay_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('sickbay_qc_checklist', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('sickbay_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('sickbay_qc_checklist');
+			frm.refresh_field('sickbay_qc_checklist');
+		}
+	},
 });
 
 
