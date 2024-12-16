@@ -2,11 +2,15 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe.utils import flt
 from frappe.model.document import Document
-from gf.api.api import create_stock_entry, create_assembly_job_card
+from gf.api.api import create_stock_entry, create_assembly_job_card, get_stock_availability
 
 
 class AssemblyWorkOrder(Document):
+	def before_save(self):
+		self.get_chassis_and_engine_item()
+	
 	def validate(self):
 		self.validate_bom()
 	
@@ -29,11 +33,11 @@ class AssemblyWorkOrder(Document):
 		if self.assembly_default_bom:
 			check_bom_status(self.assembly_default_bom, "assembly_default_bom")
 
-		if self.cabinet_default_bom:
-			check_bom_status(self.cabinet_default_bom, "cabinet_default_bom")
+		if self.cab_default_bom:
+			check_bom_status(self.cab_default_bom, "cab_default_bom")
 
 	def validate_bom_or_warehouse(self):
-		if not (self.assembly_default_bom or self.cabinet_default_bom):
+		if not (self.assembly_default_bom or self.cab_default_bom):
 			frappe.throw("Please select Assembly BOM or Cabinet BOM")
 
 		elif not self.default_source_warehouse:
@@ -42,7 +46,7 @@ class AssemblyWorkOrder(Document):
 		if self.assembly_default_bom and not self.assembly_line_warehouse:
 			frappe.throw("Please set Assembly Line Warehouse")
 		
-		if self.cabinet_default_bom and not self.cabinet_line_warehouse:
+		if self.cab_default_bom and not self.cab_line_warehouse:
 			frappe.throw("Please set Cabinet Line Warehouse")
 
 	def validate_qty_vs_order_details(self):
@@ -80,46 +84,54 @@ class AssemblyWorkOrder(Document):
 		if self.assembly_default_bom:
 			assembly_bom_doc = frappe.get_doc("BOM", self.assembly_default_bom)
 			for item in assembly_bom_doc.items:
-				items.append(
-					{
-						"item_code": item.item_code,
-						"qty": item.qty * self.quantity,
-						"uom": item.uom,
-						"s_warehouse": self.default_source_warehouse,
-						"t_warehouse": self.assembly_line_warehouse,
-					}
-				)
+				new_row = {
+					"item_code": item.item_code,
+					"qty": item.qty * self.quantity,
+					"uom": item.uom,
+					"s_warehouse": self.default_source_warehouse,
+					"t_warehouse": self.assembly_line_warehouse,
+				}
+
+				if item.item_code == self.chassis_item:
+					new_row["serial_no"] = "\n".join([row.chassis_number for row in self.work_order_detail])
+				
+				if item.item_code == self.engine_item:
+					new_row["serial_no"] = "\n".join([row.engine_number for row in self.work_order_detail])
+				
+				items.append(new_row)
 		
-		if self.cabinet_default_bom:
-			cabinet_bom_doc = frappe.get_doc("BOM", self.cabinet_default_bom)
-			for item in cabinet_bom_doc.items:
-				items.append(
-					{
-						"item_code": item.item_code,
-						"qty": item.qty * self.quantity,
-						"uom": item.uom,
-						"s_warehouse": self.default_source_warehouse,
-						"t_warehouse": self.cabinet_line_warehouse,
-					}
-				)
+		if self.cab_default_bom:
+			cab_bom_doc = frappe.get_doc("BOM", self.cab_default_bom)
+			for item in cab_bom_doc.items:
+				new_row = {
+					"item_code": item.item_code,
+					"qty": item.qty * self.quantity,
+					"uom": item.uom,
+					"s_warehouse": self.default_source_warehouse,
+					"t_warehouse": self.cab_line_warehouse,
+				}
+
+				if item.item_code == self.chassis_item:
+					new_row["serial_no"] = "\n".join([row.chassis_number for row in self.work_order_detail])
+				
+				if item.item_code == self.engine_item:
+					new_row["serial_no"] = "\n".join([row.engine_number for row in self.work_order_detail])
+				
+				items.append(new_row)
 		
 		return items
 
 	def create_job_cards(self):
 		for row in self.work_order_detail:
-			# if self.assembly_default_bom:
 			create_assembly_job_card(self, row)
-			# if self.cabinet_default_bom:
-			# 	create_assembly_job_card(self, row, "CAB")
-
 	
 	@frappe.whitelist()
 	def get_chassis_and_engine_no(self, gfa_bol_no):
 		if not gfa_bol_no:
 			return
 		
-		chassis_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Chassis Number"})
-		engine_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Engine Number"})
+		chassis_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Chassis Number", "Status": "Active"})
+		engine_numbers = frappe.db.get_all("Serial No", {"gfa_bol_no": gfa_bol_no, "gfa_item_type": "Engine Number", "Status": "Active"})
 
 		items = []
 
@@ -129,3 +141,13 @@ class AssemblyWorkOrder(Document):
 			items.append({"chassis_number": chassis_number, "engine_number": engine_number})
 		
 		return items
+	
+	def get_chassis_and_engine_item(self):
+		if not self.gfa_bol_no:
+			return
+		
+		if not self.chassis_item:
+			self.chassis_item = frappe.db.get_value("Serial No", {"gfa_bol_no": self.gfa_bol_no, "gfa_item_type": "Chassis Number"}, "item_code", cache=True)
+		
+		if not self.engine_item:
+			self.engine_item = frappe.db.get_value("Serial No", {"gfa_bol_no": self.gfa_bol_no, "gfa_item_type": "Engine Number"}, "item_code", cache=True)
