@@ -22,19 +22,10 @@ class QCJobCard(Document):
 
 	def create_stock_entry(self):
 		work_order = frappe.get_doc("Assembly Work Order", self.work_order)
-		items = work_order.get_stock_entry_items()
+		stock_entry_id = work_order.create_stock_entry("Material Issue")
 		
-		data = {
-			"purpose": "Material Issue",
-			"stock_entry_type": "Material Issue",
-			# "from_warehouse": self.default_source_warehouse,
-			# "to_warehouse": self.assembly_line_warehouse,
-			"company": self.company,
-			"items": items,
-		}
-		stock_entry_id = create_stock_entry(data)
 		self.stock_entry = stock_entry_id
-		self.save()
+		self.save(ignore_permissions=True)
 
 		return stock_entry_id
 	
