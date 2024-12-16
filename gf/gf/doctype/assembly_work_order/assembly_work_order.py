@@ -61,20 +61,26 @@ class AssemblyWorkOrder(Document):
 				f"Total work order details must be same to Quantity: <b>{self.quantity}</b>, Please add more work order details"
 			)
 	
-	def create_stock_entry(self):
-		items = self.get_stock_entry_items()
+	@frappe.whitelist()
+	def create_stock_entry(self, purpose="Material Transfer", items=[]):
+		if not self.gfa_bol_no:
+			frappe.throw("GFA BOL No is mandatory")
+		
+		if len(items) == 0:
+			items = self.get_stock_entry_items()
 		
 		data = {
-			"purpose": "Material Transfer",
-			"stock_entry_type": "Material Transfer",
-			# "from_warehouse": self.default_source_warehouse,
-			# "to_warehouse": self.assembly_line_warehouse,
+			"purpose": purpose,
+			"stock_entry_type": purpose,
 			"company": self.company,
+			"gfa_bol_no": self.gfa_bol_no,
+			"gfa_batch_no": self.gfa_batch_no,
 			"items": items,
 		}
 		stock_entry_id = create_stock_entry(data)
-		self.stock_entry = stock_entry_id
-		self.save()
+		if purpose == "Material Transfer":
+			self.stock_entry = stock_entry_id
+			self.save(ignore_permissions=True)
 
 		return stock_entry_id
 
@@ -151,3 +157,72 @@ class AssemblyWorkOrder(Document):
 		
 		if not self.engine_item:
 			self.engine_item = frappe.db.get_value("Serial No", {"gfa_bol_no": self.gfa_bol_no, "gfa_item_type": "Engine Number"}, "item_code", cache=True)
+
+	@frappe.whitelist()
+	def validate_stock_for_bom_items(self):
+		"""
+		Validate stock for BOM items. Aim is to print all bom items with their qty needed to fullfill the material transfer from source warehouse to assembly line warehouse to target warehouse 
+		"""
+
+		less_stock_items = []
+		items = self.get_bom_items()
+		for row in items:
+			sle_qty = get_stock_availability(row['item_code'], self.default_source_warehouse)
+			if flt(sle_qty) < flt(row['qty']):
+				less_stock_items.append({
+					"type": row["type"],
+					"item_code": row['item_code'],
+					"uom": row['uom'],
+					"available_qty": sle_qty,
+					"qty_needed": row['qty'],
+				})
+		
+		sorted_items = sorted(less_stock_items, key=lambda i: (i["type"], i["item_code"]))
+		return sorted_items
+	
+	def get_bom_items(self):
+		def merge_repeated_items(items):
+			seen = {}
+			merged_items = []
+
+			for item in items:
+				if item['item_code'] in seen:
+					seen[item['item_code']]['qty'] += item['qty']
+				else:
+					new_item = {
+						'type': item['type'],
+						'item_code': item['item_code'],
+						'uom': item['uom'],
+						'qty': item['qty']
+					}
+					seen[item['item_code']] = new_item
+					merged_items.append(new_item)
+			
+			return merged_items
+		
+		items = []
+		if self.assembly_default_bom:
+			assembly_bom_doc = frappe.get_doc("BOM", self.assembly_default_bom)
+			for item in assembly_bom_doc.items:
+				if item.is_stock_item == 1:
+					items.append({
+						"type": "Assembly",
+						"item_code": item.item_code,
+						"uom": item.uom,
+						"qty": item.qty * self.quantity,
+					})
+		
+		if self.cab_default_bom:
+			cab_bom_doc = frappe.get_doc("BOM", self.cab_default_bom)
+			for item in cab_bom_doc.items:
+				if item.is_stock_item == 1:
+					items.append({
+						"type": "Cab",
+						"item_code": item.item_code,
+						"uom": item.uom,
+						"qty": item.qty * self.quantity,
+					})
+		
+		items = merge_repeated_items(items)
+
+		return items

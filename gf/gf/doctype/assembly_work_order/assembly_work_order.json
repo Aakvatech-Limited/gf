@@ -17,14 +17,19 @@
   "gfa_batch_no",
   "section_break_pkrcl",
   "assembly_default_bom",
-  "cabinet_default_bom",
+  "cab_default_bom",
   "stock_entry",
   "column_break_ksjot",
   "default_source_warehouse",
   "assembly_line_warehouse",
-  "cabinet_line_warehouse",
+  "cab_line_warehouse",
   "section_break_h44bw",
   "work_order_detail",
+  "section_break_2xwea",
+  "chassis_item",
+  "column_break_84nva",
+  "engine_item",
+  "column_break_ohmji",
   "amended_from"
  ],
  "fields": [
@@ -123,20 +128,6 @@
    "search_index": 1
   },
   {
-   "fieldname": "cabinet_default_bom",
-   "fieldtype": "Link",
-   "label": "Cabinet Default BOM",
-   "options": "BOM",
-   "search_index": 1
-  },
-  {
-   "fieldname": "cabinet_line_warehouse",
-   "fieldtype": "Link",
-   "label": "Cabinet Line Warehouse",
-   "options": "Warehouse",
-   "search_index": 1
-  },
-  {
    "fieldname": "work_order_detail",
    "fieldtype": "Table",
    "label": "Work Order Detail",
@@ -159,12 +150,52 @@
    "options": "Customer",
    "reqd": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "cab_default_bom",
+   "fieldtype": "Link",
+   "label": "Cab Default BOM",
+   "options": "BOM"
+  },
+  {
+   "fieldname": "cab_line_warehouse",
+   "fieldtype": "Link",
+   "label": "Cab Line Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "section_break_2xwea",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "chassis_item",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Chassis Item",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_84nva",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "engine_item",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Engine Item",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ohmji",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-13 12:01:28.315860",
+ "modified": "2024-12-13 22:27:43.355441",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Work Order",
