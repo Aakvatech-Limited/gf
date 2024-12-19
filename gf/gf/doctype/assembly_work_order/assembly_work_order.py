@@ -175,7 +175,7 @@ class AssemblyWorkOrder(Document):
 					"item_code": row['item_code'],
 					"uom": row['uom'],
 					"available_qty": sle_qty,
-					"qty_needed": row['qty'],
+					"qty_needed": row['qty'] - sle_qty,
 				})
 		
 		sorted_items = sorted(less_stock_items, key=lambda i: (i["type"], i["item_code"]))
