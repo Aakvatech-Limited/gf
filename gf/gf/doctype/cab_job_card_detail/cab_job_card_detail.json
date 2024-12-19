@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-11-11 10:59:56.269612",
+ "creation": "2024-12-19 16:32:41.170111",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -90,6 +90,14 @@
    "fieldtype": "Section Break"
   },
   {
+   "fieldname": "total_time_elapsed",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Time Elapsed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
    "fieldname": "column_break_n7pdf",
    "fieldtype": "Column Break"
   },
@@ -100,23 +108,15 @@
    "label": "Pending Tasks",
    "mandatory_depends_on": "eval: doc.pending_datetime",
    "read_only_depends_on": "eval: !doc.pending_datetime"
-  },
-  {
-   "fieldname": "total_time_elapsed",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Total Time Elapsed",
-   "read_only": 1,
-   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-13 12:55:27.275010",
+ "modified": "2024-12-19 16:32:41.170111",
  "modified_by": "Administrator",
  "module": "GF",
- "name": "Cabinet Job Card Detail",
+ "name": "Cab Job Card Detail",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
