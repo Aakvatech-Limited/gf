@@ -3,11 +3,16 @@
 
 frappe.ui.form.on('Assembly Work Order', {
 	refresh: function(frm) {
+		frm.trigger("disable_submit");
 		frm.trigger("set_filters");
 		frm.trigger("validate_stock");
+		frm.trigger("transfer_stock");
 	},
 	onload: (frm) => {
+		frm.trigger("disable_submit");
 		frm.trigger("set_filters");
+		frm.trigger("validate_stock");
+		frm.trigger("transfer_stock");
 
 		if (!frm.doc.company) {
 			frm.set_value("company", frappe.defaults.get_user_default("Company"));
@@ -104,12 +109,32 @@ frappe.ui.form.on('Assembly Work Order', {
 			frm.refresh_field("work_order_detail");
 		}
 	},
+	disable_submit: (frm) => {
+		if (!frm.doc.stock_entry) {
+			frm.page.clear_primary_action()
+		}
+	},
 	validate_stock: (frm) => {
 		if (frm.doc.docstatus == 0) {
 			frm.add_custom_button(__("Validate Stock"), () => {
 				show_dialog(frm);
 			});
 		}
+	},
+	transfer_stock: (frm) => {
+		if (frm.doc.docstatus == 0 && !frm.doc.stock_entry) {
+			frm.add_custom_button(__("Transfer Stock"), () => {
+				frappe.call({
+					method: "gf.gf.doctype.assembly_work_order.assembly_work_order.enqueue_material_transfer",
+					args: {
+						doc_type: frm.doc.doctype,
+						doc_name: frm.doc.name
+					},
+					callback: (r) => {
+					}
+				});
+			});
+        }
 	},
 });
 
