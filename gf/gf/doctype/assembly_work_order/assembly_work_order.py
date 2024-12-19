@@ -4,6 +4,7 @@
 import frappe
 from frappe.utils import flt
 from frappe.model.document import Document
+from frappe.utils.background_jobs import enqueue
 from gf.api.api import create_stock_entry, create_assembly_job_card, get_stock_availability
 
 
@@ -19,7 +20,7 @@ class AssemblyWorkOrder(Document):
 		self.validate_qty_vs_order_details()
 
 	def on_submit(self):
-		self.create_stock_entry()
+		# self.create_stock_entry()
 		self.create_job_cards()
 
 	def validate_bom(self):
@@ -226,3 +227,36 @@ class AssemblyWorkOrder(Document):
 		items = merge_repeated_items(items)
 
 		return items
+
+@frappe.whitelist()
+def enqueue_material_transfer(doc_type, doc_name):
+	"""Enqueue a method to create stock entry (material transfer)
+	:param doc_type: Document type
+	:param doc_name: Document name
+	"""
+
+	if not doc_type or not doc_name:
+		return
+	
+	frappe.msgprint("Stock Entry (Material Transfer) is enqueued.", alert=True)
+
+	enqueue(
+		method=create_stock_entry_material_transfer,
+		job_name="create_stock_entry_material_transfer",
+		kwargs={"doc_type": doc_type, "doc_name": doc_name},
+	)
+
+def create_stock_entry_material_transfer(kwargs):
+	"""Create stock entry (material transfer)
+    :param doc_type: Document type
+    :param doc_name: Document name
+    """
+
+	doc_type = str(kwargs.get("doc_type"))
+	doc_name = str(kwargs.get("doc_name"))
+	doc = frappe.get_doc(doc_type, doc_name)
+	stock_entry_id = doc.create_stock_entry()
+	if stock_entry_id:
+		doc.queue_action("submit")
+	
+	return stock_entry_id
