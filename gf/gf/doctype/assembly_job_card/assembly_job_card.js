@@ -104,6 +104,32 @@ frappe.ui.form.on('Assembly Job Card', {
 			frm.refresh_field('cab_qc_checklist');
 		}
 	},
+	engine_qc_template: (frm) => {
+		if (frm.doc.engine_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.engine_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('engine_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('engine_qc_checklist', {
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('engine_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('engine_qc_checklist');
+			frm.refresh_field('engine_qc_checklist');
+		}
+	},
 	bs_ps_qc_template: (frm) => {
 		if (frm.doc.bs_ps_qc_template) {
 			frappe.call({
@@ -202,7 +228,7 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 });
 
 
-frappe.ui.form.on('Cabinet Job Card Detail', {
+frappe.ui.form.on('Cab Job Card Detail', {
 	form_render: (frm, cdt, cdn) => {
         frm.fields_dict.cab_stations.grid.wrapper.find('.grid-delete-row').hide();
         frm.fields_dict.cab_stations.grid.wrapper.find('.grid-insert-row-below').hide();
@@ -213,7 +239,7 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
 		frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cabinet');
+		frm.set_value('status', 'Cab');
 		frm.save();
 	},	
 	pending: (frm, cdt, cdn) => {
@@ -226,7 +252,7 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 		}
 
         frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cabinet');
+		frm.set_value('status', 'Cab');
 		if (row.pending_tasks) {
 			frm.save();
 		}
@@ -241,7 +267,51 @@ frappe.ui.form.on('Cabinet Job Card Detail', {
 		}
 
         frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cabinet');
+		frm.set_value('status', 'Cab');
+        frm.save();
+	},
+});
+
+frappe.ui.form.on('Engine Job Card Detail', {
+	form_render: (frm, cdt, cdn) => {
+        frm.fields_dict.engine_stations.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.engine_stations.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.engine_stations.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.engine_stations.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.engine_stations.grid.wrapper.find('.grid-move-row').hide();
+    },
+	start: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
+		frm.refresh_field('engine_stations');
+		frm.set_value('status', 'Engine');
+		frm.save();
+	},	
+	pending: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime());
+
+        let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.pending_datetime) {
+			let cab_p_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_p_time_elapsed);
+		}
+
+        frm.refresh_field('engine_stations');
+		frm.set_value('status', 'Engine');
+		if (row.pending_tasks) {
+			frm.save();
+		}
+    },
+	end: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'end_datetime', frappe.datetime.now_datetime());
+
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.end_datetime) {
+			let cab_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_end_total_time_elapsed);
+		}
+
+        frm.refresh_field('engine_stations');
+		frm.set_value('status', 'Engine');
         frm.save();
 	},
 });
@@ -318,6 +388,24 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 
 
 frappe.ui.form.on('Job Card QC Detail', {
+	status: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
+	},
+})
+
+frappe.ui.form.on('Cab QC Detail', {
+	status: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
+	},
+})
+
+frappe.ui.form.on('Engine QC Detail', {
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
 		let row = frappe.get_doc(cdt, cdn);
