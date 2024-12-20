@@ -71,6 +71,9 @@ def create_assembly_job_card(doc, row):
     for i in range(6):
         card_doc.append("cab_stations", {"station": f"C {i+1}" })
 
+    for i in range(5):
+        card_doc.append("engine_stations", {"station": f"E {i+1}" })
+
     for i in range(1):
         card_doc.append("bs_ps_stations", {"station": f"B {i+1}" })
 
