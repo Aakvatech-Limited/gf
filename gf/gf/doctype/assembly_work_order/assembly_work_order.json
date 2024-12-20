@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "GFA-AWO-.#####",
+ "autoname": "naming_series:naming_series",
  "creation": "2024-10-17 10:37:02.174227",
  "default_view": "List",
  "doctype": "DocType",
@@ -30,7 +30,8 @@
   "column_break_84nva",
   "engine_item",
   "column_break_ohmji",
-  "amended_from"
+  "amended_from",
+  "naming_series"
  ],
  "fields": [
   {
@@ -65,13 +66,16 @@
    "fieldname": "gfa_bol_no",
    "fieldtype": "Link",
    "label": "GFA Bol No",
-   "options": "GFA Bol No"
+   "options": "GFA Bol No",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "gfa_batch_no",
    "fieldtype": "Link",
    "label": "GFA Batch No",
-   "options": "GFA Batch No"
+   "options": "GFA Batch No",
+   "search_index": 1
   },
   {
    "fieldname": "section_break_pkrcl",
@@ -138,6 +142,7 @@
    "fieldname": "stock_entry",
    "fieldtype": "Data",
    "label": "Stock Entry",
+   "no_copy": 1,
    "read_only": 1,
    "search_index": 1
   },
@@ -155,13 +160,15 @@
    "fieldname": "cab_default_bom",
    "fieldtype": "Link",
    "label": "Cab Default BOM",
-   "options": "BOM"
+   "options": "BOM",
+   "search_index": 1
   },
   {
    "fieldname": "cab_line_warehouse",
    "fieldtype": "Link",
    "label": "Cab Line Warehouse",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "search_index": 1
   },
   {
    "fieldname": "section_break_2xwea",
@@ -190,16 +197,24 @@
   {
    "fieldname": "column_break_ohmji",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "GFA-AWO-.YYYY.-",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-13 22:27:43.355441",
+ "modified": "2024-12-19 17:46:04.707886",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Work Order",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

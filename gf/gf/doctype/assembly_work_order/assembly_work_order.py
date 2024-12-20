@@ -9,6 +9,10 @@ from gf.api.api import create_stock_entry, create_assembly_job_card, get_stock_a
 
 
 class AssemblyWorkOrder(Document):
+	def before_insert(self):
+		if self.stock_entry:
+			self.stock_entry = ''
+	
 	def before_save(self):
 		self.get_chassis_and_engine_item()
 	
@@ -22,6 +26,10 @@ class AssemblyWorkOrder(Document):
 	def on_submit(self):
 		# self.create_stock_entry()
 		self.create_job_cards()
+	
+	def before_cancel(self):
+		self.check_for_job_cards()
+		self.cancel_stock_entry()
 
 	def validate_bom(self):
 		def check_bom_status(bom_id, field):
@@ -228,6 +236,27 @@ class AssemblyWorkOrder(Document):
 
 		return items
 
+	def check_for_job_cards(self):
+		"""
+        Check if any assembly job cards exist for this assembly job order
+        """
+		job_cards = frappe.get_all("Assembly Job Card", {"work_order": self.name})
+		if len(job_cards) > 0:
+			frappe.throw(str(f"There are <b>{len(job_cards)}</b> assembly job cards for this assembly job order, Please cancel them first"))
+		
+	def cancel_stock_entry(self):
+		"""
+        Cancel stock entry for the assembly job order
+        """
+		if not self.stock_entry:
+			return
+		
+		stock_entry_doc = frappe.get_doc("Stock Entry", self.stock_entry)
+		if stock_entry_doc.docstatus == 1:
+			stock_entry_doc.queue_action("cancel")
+		elif stock_entry_doc.docstatus == 0:
+			stock_entry_doc.delete()
+	
 @frappe.whitelist()
 def enqueue_material_transfer(doc_type, doc_name):
 	"""Enqueue a method to create stock entry (material transfer)
