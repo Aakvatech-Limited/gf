@@ -110,11 +110,14 @@ frappe.ui.form.on('Assembly Work Order', {
 		}
 	},
 	disable_submit: (frm) => {
-		if (!frm.doc.stock_entry) {
+		if (!frm.is_new() && !frm.doc.stock_entry) {
 			frm.page.clear_primary_action()
 		}
 	},
 	validate_stock: (frm) => {
+		if (frm.is_new()) {
+			return
+		}
 		if (frm.doc.docstatus == 0) {
 			frm.add_custom_button(__("Validate Stock"), () => {
 				show_dialog(frm);
@@ -122,7 +125,10 @@ frappe.ui.form.on('Assembly Work Order', {
 		}
 	},
 	transfer_stock: (frm) => {
-		if (frm.doc.docstatus == 0 && !frm.doc.stock_entry) {
+		if (frm.is_new()) {
+			return
+		}
+		if (frm.doc.docstatus == 0 && frm.doc.transfer_stock == 0 && !frm.doc.stock_entry) {
 			frm.add_custom_button(__("Transfer Stock"), () => {
 				frappe.call({
 					method: "validate_stock_for_bom_items",
@@ -136,6 +142,9 @@ frappe.ui.form.on('Assembly Work Order', {
 									There are: ${r.message.length} items missing in stock, \
 									Please validate stock first. </h4>`);
 						} else {
+							frm.doc.transfer_stock = 1;
+							frm.refresh();
+
 							frappe.call({
 								method: "gf.gf.doctype.assembly_work_order.assembly_work_order.enqueue_material_transfer",
 								args: {

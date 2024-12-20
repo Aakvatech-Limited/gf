@@ -284,8 +284,16 @@ def create_stock_entry_material_transfer(kwargs):
 	doc_type = str(kwargs.get("doc_type"))
 	doc_name = str(kwargs.get("doc_name"))
 	doc = frappe.get_doc(doc_type, doc_name)
-	stock_entry_id = doc.create_stock_entry()
-	if stock_entry_id:
-		doc.queue_action("submit")
+	doc.transfer_stock = 1
+	doc.save(ignore_permissions=True)
+	try:
+		stock_entry_id = doc.create_stock_entry()
+		if stock_entry_id:
+			doc.queue_action("submit")
 	
-	return stock_entry_id
+		return stock_entry_id
+	
+	except Exception as e:
+		doc.transfer_stock = 0
+		doc.save(ignore_permissions=True)
+		frappe.log_error("Create Stock Entry (Material Transfer)", str(e))

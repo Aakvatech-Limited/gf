@@ -351,7 +351,9 @@
   {
    "fieldname": "engine_total_hours",
    "fieldtype": "Float",
-   "label": "Total Hours (Engine)"
+   "label": "Total Hours (Engine)",
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "engine_stations",
@@ -381,7 +383,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-20 10:56:04.948137",
+ "modified": "2024-12-20 11:09:27.390161",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
