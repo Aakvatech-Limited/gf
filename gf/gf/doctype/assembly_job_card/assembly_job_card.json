@@ -26,26 +26,32 @@
   "has_sickbay",
   "status",
   "assembly_tab",
-  "assembly_stations",
   "assembly_total_hours",
+  "assembly_stations",
   "section_break_stzcz",
   "assembly_qc_template",
   "assembly_qc_checklist",
   "cab_tab",
-  "cab_stations",
   "cab_total_hours",
+  "cab_stations",
   "section_break_qii6f",
   "cab_qc_template",
   "cab_qc_checklist",
+  "engine_tab",
+  "engine_total_hours",
+  "engine_stations",
+  "section_break_j3en5",
+  "engine_qc_template",
+  "engine_qc_checklist",
   "bs_ps_tab",
-  "bs_ps_stations",
   "bs_ps_total_hours",
+  "bs_ps_stations",
   "section_break_5eiux",
   "bs_ps_qc_template",
   "bs_ps_qc_checklist",
   "sickbay_tab",
-  "sickbay_stations",
   "sickbay_total_hours",
+  "sickbay_stations",
   "section_break_oc9ze",
   "sickbay_qc_template",
   "sickbay_qc_checklist",
@@ -174,13 +180,15 @@
    "fieldname": "assembly_total_hours",
    "fieldtype": "Float",
    "label": "Total Hours (Assembly)",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "sickbay_total_hours",
    "fieldtype": "Float",
    "label": "Total Hours (Sickbay)",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "status",
@@ -278,12 +286,14 @@
    "fieldname": "cab_stations",
    "fieldtype": "Table",
    "label": "Cab Stations",
-   "options": "Cabinet Job Card Detail"
+   "options": "Cab Job Card Detail"
   },
   {
    "fieldname": "cab_total_hours",
    "fieldtype": "Float",
-   "label": "Total Hours (Cab)"
+   "label": "Total Hours (Cab)",
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "bs_ps_stations",
@@ -294,7 +304,9 @@
   {
    "fieldname": "bs_ps_total_hours",
    "fieldtype": "Data",
-   "label": "Total Hours (Bs & Ps)"
+   "label": "Total Hours (Bs & Ps)",
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "default": "Bs & Ps Checklist",
@@ -330,13 +342,46 @@
    "fieldname": "qc_defects",
    "fieldtype": "Table",
    "options": "QC Defect Detail"
+  },
+  {
+   "fieldname": "engine_tab",
+   "fieldtype": "Tab Break",
+   "label": "Engine"
+  },
+  {
+   "fieldname": "engine_total_hours",
+   "fieldtype": "Float",
+   "label": "Total Hours (Engine)"
+  },
+  {
+   "fieldname": "engine_stations",
+   "fieldtype": "Table",
+   "label": "Engine Stations",
+   "options": "Engine Job Card Detail"
+  },
+  {
+   "fieldname": "section_break_j3en5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Engine Checklist",
+   "fieldname": "engine_qc_template",
+   "fieldtype": "Link",
+   "label": "Engine QC Template",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "engine_qc_checklist",
+   "fieldtype": "Table",
+   "label": "Engine QC Checklist",
+   "options": "Engine QC Detail"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-16 12:26:17.994233",
+ "modified": "2024-12-20 10:20:04.005351",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
