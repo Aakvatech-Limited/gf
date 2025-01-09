@@ -35,7 +35,7 @@ class QCJobCard(Document):
 				frappe.throw(f"{field} is mandatory")
 
 		serial_no = frappe.new_doc("Serial No")
-		serial_no.serial_no = f"{self.engine_no} - {self.chassis_no}"
+		serial_no.serial_no = f"{self.chassis_no}-{self.engine_no}"
 		serial_no.item_code = frappe.db.get_value("Assembly Work Order", self.work_order, "parent_item")
 		serial_no.status = "Active"
 		serial_no.company = self.company
