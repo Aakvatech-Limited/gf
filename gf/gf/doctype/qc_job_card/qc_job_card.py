@@ -7,8 +7,8 @@ from gf.api.api import create_stock_entry
 
 class QCJobCard(Document):
 	def autoname(self):
-		if self.engine_no and self.chassis_no and self.model:
-			self.name = f"{self.engine_no}/{self.chassis_no}/{self.model}"
+		if self.engine_no and self.chassis_no:
+			self.name = f"{self.chassis_no}-{self.engine_no}"
 		
 	def before_save(self):
 		self.add_remove_defects()
