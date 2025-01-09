@@ -77,7 +77,7 @@ def create_assembly_job_card(doc, row):
     for i in range(1):
         card_doc.append("bs_ps_stations", {"station": f"B {i+1}" })
 
-    card_doc.__newname = f"{card_doc.engine_no}/{card_doc.chassis_no}/{card_doc.model}"
+    card_doc.__newname = f"{card_doc.chassis_no}-{card_doc.engine_no}"
 
     card_doc.insert(ignore_permissions=True)
     card_doc.reload()
