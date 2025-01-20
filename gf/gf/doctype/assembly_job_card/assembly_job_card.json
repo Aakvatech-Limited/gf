@@ -28,6 +28,11 @@
   "assembly_tab",
   "assembly_total_hours",
   "assembly_stations",
+  "section_break_ot7tp",
+  "enable_eol_qc",
+  "eol_qc_template",
+  "eol_qc_checklist",
+  "eol_qc_remarks",
   "section_break_stzcz",
   "assembly_qc_template",
   "assembly_qc_checklist",
@@ -377,13 +382,46 @@
    "fieldtype": "Table",
    "label": "Engine QC Checklist",
    "options": "Engine QC Detail"
+  },
+  {
+   "depends_on": "eval: doc.enable_eol_qc == 1",
+   "fieldname": "section_break_ot7tp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "EOL Checklist",
+   "fieldname": "eol_qc_template",
+   "fieldtype": "Link",
+   "label": "EOL QC Template",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "eol_qc_remarks",
+   "fieldtype": "Table",
+   "label": "EOL QC Remarks",
+   "options": "QC Remark Detail"
+  },
+  {
+   "fieldname": "eol_qc_checklist",
+   "fieldtype": "Table",
+   "label": "EOL QC Checklist",
+   "options": "EOL QC Detail"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_eol_qc",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Enable EOL QC",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-20 11:09:27.390161",
+ "modified": "2025-01-20 17:10:11.546336",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
