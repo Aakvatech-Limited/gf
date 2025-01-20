@@ -46,6 +46,7 @@ frappe.ui.form.on('Assembly Job Card', {
 						frm.clear_table('assembly_qc_checklist');
 						r.message.forEach((element) => {
 							frm.add_child('assembly_qc_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});
@@ -72,6 +73,7 @@ frappe.ui.form.on('Assembly Job Card', {
 						frm.clear_table('cab_qc_checklist');
 						r.message.forEach((element) => {
 							frm.add_child('cab_qc_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});
@@ -98,6 +100,7 @@ frappe.ui.form.on('Assembly Job Card', {
 						frm.clear_table('engine_qc_checklist');
 						r.message.forEach((element) => {
 							frm.add_child('engine_qc_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});
@@ -124,6 +127,7 @@ frappe.ui.form.on('Assembly Job Card', {
 						frm.clear_table('bs_ps_qc_checklist');
 						r.message.forEach((element) => {
 							frm.add_child('bs_ps_qc_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});
@@ -150,6 +154,7 @@ frappe.ui.form.on('Assembly Job Card', {
 						frm.clear_table('sickbay_qc_checklist');
 						r.message.forEach((element) => {
 							frm.add_child('sickbay_qc_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});

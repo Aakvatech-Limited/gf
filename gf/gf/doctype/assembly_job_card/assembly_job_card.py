@@ -144,30 +144,35 @@ class AssemblyJobCard(Document):
 		if self.assembly_qc_template:
 			for row in self.get_checklist(self.assembly_qc_template):
 				self.append("assembly_qc_checklist", {
+					"category": row.get("category"),
 					"task": row.get("task")
 				})
 		
 		if self.cab_qc_template:
 			for row in self.get_checklist(self.cab_qc_template):
 				self.append("cab_qc_checklist", {
+					"category": row.get("category"),
                     "task": row.get("task")
                 })
 		
 		if self.engine_qc_template:
 			for row in self.get_checklist(self.engine_qc_template):
 				self.append("engine_qc_checklist", {
+					"category": row.get("category"),
                     "task": row.get("task")
                 })
 		
 		if self.bs_ps_qc_template:
 			for row in self.get_checklist(self.bs_ps_qc_template):
 				self.append("bs_ps_qc_checklist", {
+					"category": row.get("category"),
                     "task": row.get("task")
                 })
 		
 		if self.sickbay_qc_template:
 			for row in self.get_checklist(self.sickbay_qc_template):
 				self.append("sickbay_qc_checklist", {
+					"category": row.get("category"),
                     "task": row.get("task")
                 })
 
@@ -177,6 +182,7 @@ class AssemblyJobCard(Document):
 		checklist_doc = frappe.get_cached_doc('QC Checklist', checklist_id)
 		for row in checklist_doc.checklist:
 			checklist.append({
+				"category": row.get("category"),
 				"task": row.get("task")
 			})
 		return checklist
@@ -193,6 +199,7 @@ class AssemblyJobCard(Document):
 				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 
@@ -204,6 +211,7 @@ class AssemblyJobCard(Document):
 				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 			
@@ -215,6 +223,7 @@ class AssemblyJobCard(Document):
 				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 		
@@ -226,6 +235,7 @@ class AssemblyJobCard(Document):
 				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 		
@@ -237,6 +247,7 @@ class AssemblyJobCard(Document):
 				self.append("qc_defects", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 		
