@@ -7,6 +7,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "category",
   "task",
   "status",
   "worked_by",
@@ -16,13 +17,16 @@
  ],
  "fields": [
   {
+   "columns": 4,
    "fieldname": "task",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Task",
-   "length": 1000
+   "length": 1000,
+   "search_index": 1
   },
   {
+   "columns": 2,
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -31,11 +35,12 @@
    "search_index": 1
   },
   {
+   "columns": 2,
    "fieldname": "worked_by",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Worked By",
-   "read_only": 1
+   "search_index": 1
   },
   {
    "fieldname": "section_break_qctrj",
@@ -54,12 +59,20 @@
    "label": "Ref Docname",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Category",
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-09 19:29:54.626887",
+ "modified": "2025-01-20 11:43:17.824005",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Defect Detail",
