@@ -11,38 +11,73 @@ frappe.ui.form.on('QC Job Card', {
 		frm.trigger('hide_add_remove_btns');
 	},
 	set_filters: (frm) => {
-		frm.set_query("checklist", () => {
+		frm.set_query("dynamic_qc_template", () => {
 			return {
 				filters: {
-					"name": ["in", ["Dynamic Checklist", "Static Checklist"]]
+					"name": ["like", "Dynamic%"]
+				}
+			}
+		})
+		frm.set_query("static_qc_template", () => {
+			return {
+				filters: {
+					"name": ["like", "Static%"]
 				}
 			}
 		})
 	},
-	checklist: (frm) => {
-		if (frm.doc.checklist) {
+	dynamic_qc_template: (frm) => {
+		if (frm.doc.dynamic_qc_template) {
 			frappe.call({
 				method: 'get_checklist',
 				doc: frm.doc,
 				args: {
-					checklist_id: frm.doc.checklist,
+					checklist_id: frm.doc.dynamic_qc_template,
 				},
 				callback: (r) => {
 					if (r.message) {
-						frm.clear_table('job_card_detail');
+						frm.clear_table('dynamic_checklist');
 
 						r.message.forEach((element) => {
-							frm.add_child('job_card_detail', {
+							frm.add_child('dynamic_checklist', {
+								'category': element.category,
                                 'task': element.task,
                             });
 						});
-						frm.refresh_field('job_card_detail');
+						frm.refresh_field('dynamic_checklist');
 					}
 				}
 			});
 		} else {
-			frm.clear_table('job_card_detail');
-			frm.refresh_field('job_card_detail');
+			frm.clear_table('dynamic_checklist');
+			frm.refresh_field('dynamic_checklist');
+		}
+	},
+	static_qc_template: (frm) => {
+		if (frm.doc.static_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.static_qc_template,
+				},
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('static_checklist');
+
+						r.message.forEach((element) => {
+							frm.add_child('static_checklist', {
+								'category': element.category,
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('static_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('static_checklist');
+			frm.refresh_field('static_checklist');
 		}
 	},
 	hide_add_remove_btns: (frm) => {
