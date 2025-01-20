@@ -3,7 +3,6 @@
 
 import frappe
 from frappe.model.document import Document
-from gf.api.api import create_stock_entry
 
 class QCJobCard(Document):
 	def autoname(self):
@@ -39,7 +38,6 @@ class QCJobCard(Document):
 		serial_no.item_code = frappe.db.get_value("Assembly Work Order", self.work_order, "parent_item")
 		serial_no.status = "Active"
 		serial_no.company = self.company
-		# serial_no.warehouse = 'Stock Yard - GVAL'
 		serial_no.flags.ignore_mandatory = True
 		serial_no.flags.ignore_permissions = True
 		serial_no.save()
@@ -53,6 +51,7 @@ class QCJobCard(Document):
 		checklist_doc = frappe.get_cached_doc('QC Checklist', checklist_id)
 		for row in checklist_doc.checklist:
 			checklist.append({
+				"category": row.get("category"),
 				"task": row.get("task")
 			})
 		return checklist
@@ -61,7 +60,7 @@ class QCJobCard(Document):
 		defects_qc = []
 		defects_ref_docnames = [row.ref_docname for row in self.qc_defect_items]
 
-		for row in self.job_card_detail:
+		for row in self.dynamic_checklist:
 			if row.name not in defects_qc:
 				defects_qc.append(row.name)
 			
@@ -69,6 +68,19 @@ class QCJobCard(Document):
 				self.append("qc_defect_items", {
 					"ref_doctype": row.doctype,
 					"ref_docname": row.name,
+					"category": row.category,
+					"task": row.task
+				})
+		
+		for row in self.static_checklist:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
+				self.append("qc_defect_items", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"category": row.category,
 					"task": row.task
 				})
 		
