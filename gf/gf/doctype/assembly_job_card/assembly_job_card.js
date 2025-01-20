@@ -32,26 +32,6 @@ frappe.ui.form.on('Assembly Job Card', {
 		$("*[data-fieldname='qc_defects']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='qc_defects']").find(".grid-remove-all-rows").hide();
 	},
-	create_quality_check_job_card: (frm) => {
-		frappe.call({
-			method: 'gf.api.api.create_body_shop_or_qc_card',
-			args: {
-				doc_type: frm.doc.doctype,
-				doc_name: frm.doc.name,
-				card_type: "Quality Check Job Card"
-			},
-			freeze: true,
-			callback: (r) => {
-				if (r.message) {
-					frappe.show_alert({
-						message: __('Quality Check Job Card {0} created successfully', [r.message]),
-						indicator: 'green'
-					});
-				}
-			}
-		});
-	},
-
 	assembly_qc_template: (frm) => {
 		if (frm.doc.assembly_qc_template) {
 			frappe.call({
