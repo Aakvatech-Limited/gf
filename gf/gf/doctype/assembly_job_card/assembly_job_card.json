@@ -399,7 +399,7 @@
    "fieldname": "eol_qc_remarks",
    "fieldtype": "Table",
    "label": "EOL QC Remarks",
-   "options": "QC Remark Detail"
+   "options": "EOL Remark Detail"
   },
   {
    "fieldname": "eol_qc_checklist",
@@ -421,7 +421,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 17:10:11.546336",
+ "modified": "2025-01-20 18:03:01.609299",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",

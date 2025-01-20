@@ -22,7 +22,8 @@
   "posting_date",
   "posting_time",
   "section_break_stzcz",
-  "checklist",
+  "dynamic_qc_template",
+  "static_qc_template",
   "column_break_2vxvw",
   "start_odometer_reading",
   "end_odometer_reading",
@@ -31,7 +32,11 @@
   "end_datetime",
   "total_hours",
   "section_break_uhsnh",
-  "job_card_detail",
+  "dynamic_checklist",
+  "static_checklist_section",
+  "static_checklist",
+  "qc_remarks_section",
+  "qc_remarks",
   "actions_section",
   "stock_entry",
   "column_break_jhefb",
@@ -181,12 +186,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "job_card_detail",
-   "fieldtype": "Table",
-   "label": "Job Card Detail",
-   "options": "QC Job Card Detail"
-  },
-  {
    "fieldname": "start_datetime",
    "fieldtype": "Datetime",
    "label": "Start Datetime",
@@ -226,14 +225,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "checklist",
-   "fieldtype": "Link",
-   "label": "Checklist",
-   "options": "QC Checklist"
-  },
-  {
+   "collapsible": 1,
    "fieldname": "section_break_uhsnh",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Dynamic Checklist"
   },
   {
    "fieldname": "column_break_2vxvw",
@@ -259,13 +254,51 @@
    "fieldtype": "Table",
    "label": "Defect Detail",
    "options": "QC Defect Item"
+  },
+  {
+   "fieldname": "dynamic_qc_template",
+   "fieldtype": "Link",
+   "label": "Dynamic Qc Template",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "static_qc_template",
+   "fieldtype": "Link",
+   "label": "Static Qc Template",
+   "options": "QC Checklist"
+  },
+  {
+   "fieldname": "dynamic_checklist",
+   "fieldtype": "Table",
+   "options": "QC Dynamic Detail"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "static_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Static Checklist"
+  },
+  {
+   "fieldname": "static_checklist",
+   "fieldtype": "Table",
+   "options": "QC Static Detail"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "qc_remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Qc Remarks"
+  },
+  {
+   "fieldname": "qc_remarks",
+   "fieldtype": "Table",
+   "options": "QC Remark Detail"
   }
  ],
- "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-16 00:53:09.231207",
+ "modified": "2025-01-20 18:30:43.558236",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",
