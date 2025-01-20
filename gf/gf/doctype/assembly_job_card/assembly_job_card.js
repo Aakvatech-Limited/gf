@@ -32,6 +32,33 @@ frappe.ui.form.on('Assembly Job Card', {
 		$("*[data-fieldname='qc_defects']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='qc_defects']").find(".grid-remove-all-rows").hide();
 	},
+	eol_qc_template: (frm) => {
+		if (frm.doc.eol_qc_template) {
+			frappe.call({
+				method: 'get_checklist',
+				doc: frm.doc,
+				args: {
+					checklist_id: frm.doc.eol_qc_template,
+				},
+				freeze: true,
+				callback: (r) => {
+					if (r.message) {
+						frm.clear_table('eol_qc_checklist');
+						r.message.forEach((element) => {
+							frm.add_child('eol_qc_checklist', {
+								'category': element.category,
+                                'task': element.task,
+                            });
+						});
+						frm.refresh_field('eol_qc_checklist');
+					}
+				}
+			});
+		} else {
+			frm.clear_table('eol_qc_checklist');
+			frm.refresh_field('eol_qc_checklist');
+		}
+	},
 	assembly_qc_template: (frm) => {
 		if (frm.doc.assembly_qc_template) {
 			frappe.call({
@@ -180,6 +207,10 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 	},
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.station == 'EOL') {
+			frm.set_value('enable_eol_qc', 1);
+		}
 		frm.refresh_field('assembly_stations');
 		frm.set_value('status', 'Assembly');
 		frm.save();
@@ -371,6 +402,14 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 	},
 })
 
+frappe.ui.form.on('EOL QC Detail', {
+	status: (frm, cdt, cdn) => {
+		frm.set_value('status', 'QC');
+		let row = frappe.get_doc(cdt, cdn);
+		row.worked_by = frappe.session.user_fullname
+		frm.refresh_field('worked_by');
+	},
+})
 
 frappe.ui.form.on('Job Card QC Detail', {
 	status: (frm, cdt, cdn) => {

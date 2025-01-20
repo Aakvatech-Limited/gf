@@ -141,6 +141,13 @@ class AssemblyJobCard(Document):
 			frappe.throw("Only Job Card with QC/Bodyshop status can be submitted, Please inform the QC/Bodyshop team to check the truck")
 
 	def get_checklist_from_templates(self):
+		if self.eol_qc_template:
+			for row in self.get_checklist(self.eol_qc_template):
+				self.append("eol_qc_checklist", {
+					"category": row.get("category"),
+					"task": row.get("task")
+				})
+		
 		if self.assembly_qc_template:
 			for row in self.get_checklist(self.assembly_qc_template):
 				self.append("assembly_qc_checklist", {
@@ -190,6 +197,18 @@ class AssemblyJobCard(Document):
 	def add_remove_defects(self):
 		defects_qc = []
 		defects_ref_docnames = [row.ref_docname for row in self.qc_defects]
+
+		for row in self.eol_qc_checklist:
+			if row.name not in defects_qc:
+				defects_qc.append(row.name)
+			
+			if row.name not in defects_ref_docnames and row.status == "Not Ok":
+				self.append("qc_defects", {
+					"ref_doctype": row.doctype,
+					"ref_docname": row.name,
+					"category": row.category,
+					"task": row.task
+				})
 
 		for row in self.assembly_qc_checklist:
 			if row.name not in defects_qc:
