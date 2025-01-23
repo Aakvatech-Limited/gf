@@ -215,12 +215,31 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 		frm.set_value('status', 'Assembly');
 		frm.save();
 	},
+	pause: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('assembly_stations');
+		frm.set_value('status', 'Assembly');
+		frm.save();
+	},
+	resume: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.resume_datetime) {
+			let resting_time = frappe.datetime.get_diff(row.resume_datetime, row.pause_datetime);
+			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
+		}
+		frm.refresh_field('assembly_stations');
+		frm.set_value('status', 'Assembly');
+		frm.save();
+	},
 	pending: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime())
 		
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.pending_datetime) {
 			let assembly_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			assembly_p_total_time_elapsed = assembly_p_total_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assembly_p_total_time_elapsed);
 		}
 		frm.refresh_field('assembly_stations');
@@ -235,6 +254,8 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.end_datetime) {
 			let assmbly_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			assmbly_end_total_time_elapsed = assmbly_end_total_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assmbly_end_total_time_elapsed)
 		}
 		frm.refresh_field('assembly_stations');
@@ -257,13 +278,32 @@ frappe.ui.form.on('Cab Job Card Detail', {
 		frm.refresh_field('cab_stations');
 		frm.set_value('status', 'Cab');
 		frm.save();
-	},	
+	},
+	pause: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('cab_stations');
+		frm.set_value('status', 'Cab');
+		frm.save();
+	},
+	resume: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.resume_datetime) {
+			let resting_time = frappe.datetime.get_diff(row.resume_datetime, row.pause_datetime);
+			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
+		}
+		frm.refresh_field('cab_stations');
+		frm.set_value('status', 'Cab');
+		frm.save();
+	},
 	pending: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime());
 
         let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.pending_datetime) {
 			let cab_p_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			cab_p_time_elapsed = cab_p_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_p_time_elapsed);
 		}
 
@@ -279,6 +319,8 @@ frappe.ui.form.on('Cab Job Card Detail', {
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.end_datetime) {
 			let cab_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			cab_end_total_time_elapsed = cab_end_total_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_end_total_time_elapsed);
 		}
 
@@ -301,14 +343,33 @@ frappe.ui.form.on('Engine Job Card Detail', {
 		frm.refresh_field('engine_stations');
 		frm.set_value('status', 'Engine');
 		frm.save();
-	},	
+	},
+	pause: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('engine_stations');
+		frm.set_value('status', 'Engine');
+		frm.save();
+	},
+	resume: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.resume_datetime) {
+			let resting_time = frappe.datetime.get_diff(row.resume_datetime, row.pause_datetime);
+			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
+		}
+		frm.refresh_field('engine_stations');
+		frm.set_value('status', 'Engine');
+		frm.save();
+	},
 	pending: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime());
 
         let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.pending_datetime) {
-			let cab_p_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
-			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_p_time_elapsed);
+			let engine_p_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			engine_p_time_elapsed = engine_p_time_elapsed - resting_time;
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', engine_p_time_elapsed);
 		}
 
         frm.refresh_field('engine_stations');
@@ -322,8 +383,10 @@ frappe.ui.form.on('Engine Job Card Detail', {
 
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.end_datetime) {
-			let cab_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
-			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', cab_end_total_time_elapsed);
+			let engine_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			engine_end_total_time_elapsed = engine_end_total_time_elapsed - resting_time;
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', engine_end_total_time_elapsed);
 		}
 
         frm.refresh_field('engine_stations');
@@ -347,12 +410,31 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
+	pause: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('bs_ps_stations');
+		frm.set_value('status', 'Bodyshop');
+		frm.save();
+	},
+	resume: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.resume_datetime) {
+			let resting_time = frappe.datetime.get_diff(row.resume_datetime, row.pause_datetime);
+			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
+		}
+		frm.refresh_field('bs_ps_stations');
+		frm.set_value('status', 'Bodyshop');
+		frm.save();
+	},
 	pending: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pending_datetime', frappe.datetime.now_datetime())
 		
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.pending_datetime) {
 			let body_p_total_time_elapsed = frappe.datetime.get_diff(row.pending_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			body_p_total_time_elapsed = body_p_total_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_p_total_time_elapsed);
 		}
 		frm.refresh_field('bs_ps_stations');
@@ -365,6 +447,8 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 		let row = frappe.get_doc(cdt, cdn);
 		if (row.start_datetime && row.end_datetime) {
 			let body_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			body_end_total_time_elapsed = body_end_total_time_elapsed - resting_time;
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_end_total_time_elapsed)
 		}
 		frm.refresh_field('bs_ps_stations');
@@ -388,11 +472,35 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 		frm.set_value('status', 'Sickbay');
 		frm.save();
 	},
-	end: (frm, cdt, cdn) => {
+	pause: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
+		frm.refresh_field('sickbay_stations');
+		frm.set_value('status', 'Sickbay');
+		frm.save();
+	},
+	resume: (frm, cdt, cdn) => {
+		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
 		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.resume_datetime) {
+			let resting_time = frappe.datetime.get_diff(row.resume_datetime, row.pause_datetime);
+			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
+		}
+		frm.refresh_field('sickbay_stations');
+		frm.set_value('status', 'Sickbay');
+		frm.save();
+	},
+	end: (frm, cdt, cdn) => {
 		let now_datetime = frappe.datetime.now_datetime();
+		frappe.model.set_value(cdt, cdn, 'end_datetime', now_datetime)
 
-		frappe.model.set_value(row.doctype, row.name, 'end_datetime', now_datetime);
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.start_datetime && row.end_datetime) {
+			let sickbay_end_total_time_elapsed = frappe.datetime.get_diff(row.end_datetime, row.start_datetime);
+			let resting_time = row.resting_time ? row.resting_time : 0;
+			sickbay_end_total_time_elapsed = sickbay_end_total_time_elapsed - resting_time;
+			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', sickbay_end_total_time_elapsed)
+		}
+
 		if (row.ref_doctype && row.ref_docname) {
 			frappe.model.set_value(row.ref_doctype, row.ref_docname, 'end_datetime', now_datetime);
 		}
