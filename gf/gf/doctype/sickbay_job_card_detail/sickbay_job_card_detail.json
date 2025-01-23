@@ -11,11 +11,18 @@
   "section_break_tanzw",
   "start",
   "start_datetime",
+  "column_break_cbgn8",
+  "pause",
+  "pause_datetime",
+  "column_break_itfzm",
+  "resume",
+  "resume_datetime",
   "column_break_at5w0",
   "end",
   "end_datetime",
   "section_break_2wh1u",
   "total_time_elapsed",
+  "resting_time",
   "ref_doctype",
   "ref_docname",
   "column_break_n7pdf",
@@ -105,12 +112,50 @@
    "label": "Total Time Elapsed",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "column_break_cbgn8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: !doc.pause_datetime && doc.start_datetime",
+   "fieldname": "pause",
+   "fieldtype": "Button",
+   "label": "Pause"
+  },
+  {
+   "fieldname": "pause_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pause Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_itfzm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.pause_datetime && !doc.resume_datetime",
+   "fieldname": "resume",
+   "fieldtype": "Button",
+   "label": "Resume"
+  },
+  {
+   "fieldname": "resume_datetime",
+   "fieldtype": "Datetime",
+   "label": "Resume Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resting_time",
+   "fieldtype": "Float",
+   "label": "Resting Time",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-13 12:56:11.663836",
+ "modified": "2025-01-23 08:00:27.444232",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Sickbay Job Card Detail",

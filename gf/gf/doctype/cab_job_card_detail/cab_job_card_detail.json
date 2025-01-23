@@ -11,6 +11,12 @@
   "section_break_ylf7x",
   "start",
   "start_datetime",
+  "column_break_6ghsy",
+  "pause",
+  "pause_datetime",
+  "column_break_a6rn6",
+  "resume",
+  "resume_datetime",
   "column_break_at5w0",
   "pending",
   "pending_datetime",
@@ -19,6 +25,7 @@
   "end_datetime",
   "section_break_2wh1u",
   "total_time_elapsed",
+  "resting_time",
   "column_break_n7pdf",
   "pending_tasks"
  ],
@@ -108,12 +115,50 @@
    "label": "Pending Tasks",
    "mandatory_depends_on": "eval: doc.pending_datetime",
    "read_only_depends_on": "eval: !doc.pending_datetime"
+  },
+  {
+   "fieldname": "column_break_6ghsy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.start_datetime && !doc.pause_datetime && !doc.pending_datetime && !doc.end_datetime",
+   "fieldname": "pause",
+   "fieldtype": "Button",
+   "label": "Pause"
+  },
+  {
+   "fieldname": "pause_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pause Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_a6rn6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.pause_datetime && !doc.resume_datetime",
+   "fieldname": "resume",
+   "fieldtype": "Button",
+   "label": "Resume"
+  },
+  {
+   "fieldname": "resume_datetime",
+   "fieldtype": "Datetime",
+   "label": "Resume Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resting_time",
+   "fieldtype": "Float",
+   "label": "Resting Time",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-19 16:32:41.170111",
+ "modified": "2025-01-23 08:09:04.280233",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Cab Job Card Detail",

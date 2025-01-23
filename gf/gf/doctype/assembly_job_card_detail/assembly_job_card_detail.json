@@ -12,13 +12,20 @@
   "start",
   "start_datetime",
   "column_break_at5w0",
+  "pause",
+  "pause_datetime",
+  "column_break_vfn5b",
+  "resume",
+  "resume_datetime",
+  "column_break_87r7z",
   "pending",
   "pending_datetime",
-  "column_break_87r7z",
+  "column_break_8fm7b",
   "end",
   "end_datetime",
   "section_break_2wh1u",
   "total_time_elapsed",
+  "resting_time",
   "column_break_n7pdf",
   "pending_tasks"
  ],
@@ -107,12 +114,51 @@
    "label": "Total Time Elapsed",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "depends_on": "eval: doc.start_datetime && !doc.pause_datetime && !doc.pending_datetime && !doc.end_datetime",
+   "fieldname": "pause",
+   "fieldtype": "Button",
+   "label": "Pause"
+  },
+  {
+   "fieldname": "pause_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pause Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_vfn5b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.pause_datetime && !doc.resume_datetime ",
+   "fieldname": "resume",
+   "fieldtype": "Button",
+   "label": "Resume"
+  },
+  {
+   "depends_on": "eval: doc.pause_datetime && !doc.pending_datetim && !doc.end_datetime",
+   "fieldname": "resume_datetime",
+   "fieldtype": "Datetime",
+   "label": "Resume Datetime",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_8fm7b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "resting_time",
+   "fieldtype": "Float",
+   "label": "Resting Time",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-13 12:58:23.863712",
+ "modified": "2025-01-23 08:05:48.764512",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card Detail",

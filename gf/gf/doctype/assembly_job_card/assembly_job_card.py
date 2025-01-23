@@ -33,44 +33,59 @@ class AssemblyJobCard(Document):
 		self.sickbay_total_hours = 0
 		
 		for row in self.assembly_stations:
+			if row.pause_datetime and row.resume_datetime:
+				row.resting_time = time_diff_in_hours(row.resume_datetime, row.pause_datetime)
+
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime) - row.resting_time
 				self.assembly_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime) - row.resting_time
 				self.assembly_total_hours += row.total_time_elapsed
 		
 		for row in self.cab_stations:
+			if row.pause_datetime and row.resume_datetime:
+				row.resting_time = time_diff_in_hours(row.resume_datetime, row.pause_datetime)
+				
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime) - row.resting_time
 				self.cab_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime) - row.resting_time
 				self.cab_total_hours += row.total_time_elapsed
 		
 		for row in self.engine_stations:
+			if row.pause_datetime and row.resume_datetime:
+				row.resting_time = time_diff_in_hours(row.resume_datetime, row.pause_datetime)
+				
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime) - row.resting_time
 				self.engine_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime) - row.resting_time
 				self.engine_total_hours += row.total_time_elapsed
 		
 		for row in self.bs_ps_stations:
+			if row.pause_datetime and row.resume_datetime:
+				row.resting_time = time_diff_in_hours(row.resume_datetime, row.pause_datetime)
+				
 			if row.start_datetime and row.pending_datetime and not row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.pending_datetime, row.start_datetime) - row.resting_time
 				self.bs_ps_total_hours += row.total_time_elapsed
 			
 			if row.start_datetime and row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime) - row.resting_time
 				self.bs_ps_total_hours += row.total_time_elapsed
 		
 		for row in self.sickbay_stations:
+			if row.pause_datetime and row.resume_datetime:
+				row.resting_time = time_diff_in_hours(row.resume_datetime, row.pause_datetime)
+				
 			if row.start_datetime and row.end_datetime:
-				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime)
+				row.total_time_elapsed = time_diff_in_hours(row.end_datetime, row.start_datetime) - row.resting_time
 				self.sickbay_total_hours += row.total_time_elapsed
 
 	def add_sickbay_task(self):

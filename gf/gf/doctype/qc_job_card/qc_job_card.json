@@ -295,10 +295,11 @@
    "options": "QC Remark Detail"
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 18:30:43.558236",
+ "modified": "2025-01-20 18:44:58.480018",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",
