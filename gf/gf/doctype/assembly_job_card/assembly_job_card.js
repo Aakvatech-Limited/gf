@@ -221,6 +221,12 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 		frm.set_value('status', 'Assembly');
 		frm.save();
 	},
+	pause_reason: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.pause_reason) {
+			frm.save();
+		}
+	},
 	resume: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
 		let row = frappe.get_doc(cdt, cdn);
@@ -247,6 +253,10 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 		if (row.pending_tasks) {
 			frm.save();
 		}
+	},
+	pending_tasks: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		// row.
 	},
 	end: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'end_datetime', frappe.datetime.now_datetime())
@@ -284,6 +294,12 @@ frappe.ui.form.on('Cab Job Card Detail', {
 		frm.refresh_field('cab_stations');
 		frm.set_value('status', 'Cab');
 		frm.save();
+	},
+	pause_reason: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.pause_reason) {
+			frm.save();
+		}
 	},
 	resume: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
@@ -349,6 +365,12 @@ frappe.ui.form.on('Engine Job Card Detail', {
 		frm.refresh_field('engine_stations');
 		frm.set_value('status', 'Engine');
 		frm.save();
+	},
+	pause_reason: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.pause_reason) {
+			frm.save();
+		}
 	},
 	resume: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
@@ -416,6 +438,12 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 		frm.set_value('status', 'Bodyshop');
 		frm.save();
 	},
+	pause_reason: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.pause_reason) {
+			frm.save();
+		}
+	},
 	resume: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
 		let row = frappe.get_doc(cdt, cdn);
@@ -477,6 +505,12 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 		frm.refresh_field('sickbay_stations');
 		frm.set_value('status', 'Sickbay');
 		frm.save();
+	},
+	pause_reason: (frm, cdt, cdn) => {
+		let row = frappe.get_doc(cdt, cdn);
+		if (row.pause_datetime && row.pause_reason) {
+			frm.save();
+		}
 	},
 	resume: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'resume_datetime', frappe.datetime.now_datetime())
