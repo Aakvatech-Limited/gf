@@ -60,6 +60,7 @@ def create_assembly_job_card(doc, row):
     card_doc.model = doc.parent_item
     card_doc.engine_no = row_dict.get("engine_number")
     card_doc.chassis_no = row_dict.get("chassis_number")
+    card_doc.assembly_line = doc.assembly_line
     card_doc.status = "Pending"
 
     

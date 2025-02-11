@@ -15,6 +15,7 @@
   "quantity",
   "gfa_bol_no",
   "gfa_batch_no",
+  "assembly_line",
   "section_break_pkrcl",
   "assembly_default_bom",
   "cab_default_bom",
@@ -216,12 +217,19 @@
    "label": "Transfer Stock",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "assembly_line",
+   "fieldtype": "Select",
+   "label": "Assembly Line",
+   "options": "\nLine 1\nLine 2",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-20 11:12:52.927068",
+ "modified": "2025-02-11 21:34:31.712472",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Work Order",
