@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils import nowdate, nowtime, get_url_to_form
 
 class QCJobCard(Document):
 	def autoname(self):
@@ -14,6 +15,7 @@ class QCJobCard(Document):
 	
 	def before_submit(self):
 		self.validate_defects()
+		self.validate_consignee_warehouse()
 	
 	def on_submit(self):
 		self.create_stock_entry()
@@ -96,3 +98,11 @@ class QCJobCard(Document):
 		for row in self.qc_defect_items:
 			if row.status != "Ok":
 				frappe.throw("Please check the defects section and work on the defects found by QC team")
+	
+	def validate_consignee_warehouse(self):
+		if self.consignee:
+			if not frappe.get_cached_value("Customer", self.consignee, "warehouse"):
+				url = get_url_to_form("Customer", self.consignee)
+				frappe.throw(
+					f"Warehouse is missing for Consignee: <a href='{url}'><b>{self.consignee}</b>, Please it to proceed</a>"
+				)
