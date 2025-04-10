@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate, nowtime, get_url_to_form, now_datetime
+from gf.api.api import create_stock_entry as _create_stock_entry
 
 class QCJobCard(Document):
 	def autoname(self):
@@ -20,15 +21,6 @@ class QCJobCard(Document):
 	def on_submit(self):
 		self.create_stock_entry()
 		self.create_serial_no()
-
-	def create_stock_entry(self):
-		work_order = frappe.get_doc("Assembly Work Order", self.work_order)
-		stock_entry_id = work_order.create_stock_entry("Material Issue")
-		
-		self.stock_entry = stock_entry_id
-		self.save(ignore_permissions=True)
-
-		return stock_entry_id
 	
 	def create_serial_no(self):
 		for field in ["engine_no", "chassis_no"]:
@@ -109,3 +101,66 @@ class QCJobCard(Document):
 				frappe.throw(
 					f"Warehouse is missing for Consignee: <a href='{url}'><b>{self.consignee}</b>, Please it to proceed</a>"
 				)
+
+	@frappe.whitelist()
+	def create_stock_entry(self):
+		if not self.gfa_bol_no:
+			frappe.throw("GFA BOL No is mandatory")
+		
+		items = self.get_stock_entry_items()
+		
+		data = {
+			"purpose": "Material Issue",
+			"stock_entry_type": "Material Issue",
+			"company": self.company,
+			"gfa_bol_no": self.gfa_bol_no,
+			"gfa_batch_no": self.gfa_batch_no,
+			"items": items,
+		}
+		stock_entry_id = _create_stock_entry(data)
+		self.stock_entry = stock_entry_id
+		self.save(ignore_permissions=True)
+
+		return stock_entry_id
+
+	def get_stock_entry_items(self):
+		items = []
+
+		work_order = frappe.get_cached_doc("Assembly Work Order", self.work_order)
+		if work_order.assembly_default_bom:
+			assembly_bom_doc = frappe.get_cached_doc("BOM", self.assembly_default_bom)
+			for item in assembly_bom_doc.items:
+				new_row = {
+					"item_code": item.item_code,
+					"qty": item.qty,
+					"uom": item.uom,
+					"s_warehouse": self.assembly_line_warehouse,
+				}
+
+				if item.item_code == work_order.chassis_item:
+					new_row["serial_no"] = self.chassis_no
+				
+				if item.item_code == work_order.engine_item:
+					new_row["serial_no"] = self.engine_no
+				
+				items.append(new_row)
+		
+		if self.cab_default_bom:
+			cab_bom_doc = frappe.get_cached_doc("BOM", self.cab_default_bom)
+			for item in cab_bom_doc.items:
+				new_row = {
+					"item_code": item.item_code,
+					"qty": item.qty,
+					"uom": item.uom,
+					"s_warehouse": self.cab_line_warehouse,
+				}
+
+				if item.item_code == work_order.chassis_item:
+					new_row["serial_no"] = self.chassis_no
+				
+				if item.item_code == work_order.engine_item:
+					new_row["serial_no"] = self.engine_no
+				
+				items.append(new_row)
+		
+		return items
