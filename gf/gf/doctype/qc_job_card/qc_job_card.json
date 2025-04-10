@@ -41,6 +41,7 @@
   "stock_entry",
   "column_break_jhefb",
   "serial_no",
+  "finished_truck_date",
   "amended_from",
   "defect_detail_tab",
   "qc_defect_items"
@@ -293,13 +294,21 @@
    "fieldname": "qc_remarks",
    "fieldtype": "Table",
    "options": "QC Remark Detail"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "finished_truck_date",
+   "fieldtype": "Datetime",
+   "label": "Finished Truck Date",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 18:44:58.480018",
+ "modified": "2025-04-10 12:54:28.337940",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",
