@@ -128,7 +128,7 @@ class QCJobCard(Document):
 
 		work_order = frappe.get_cached_doc("Assembly Work Order", self.work_order)
 		if work_order.assembly_default_bom:
-			assembly_bom_doc = frappe.get_cached_doc("BOM", self.assembly_default_bom)
+			assembly_bom_doc = frappe.get_cached_doc("BOM", work_order.assembly_default_bom)
 			for item in assembly_bom_doc.items:
 				new_row = {
 					"item_code": item.item_code,
@@ -145,8 +145,8 @@ class QCJobCard(Document):
 				
 				items.append(new_row)
 		
-		if self.cab_default_bom:
-			cab_bom_doc = frappe.get_cached_doc("BOM", self.cab_default_bom)
+		if work_order.cab_default_bom:
+			cab_bom_doc = frappe.get_cached_doc("BOM", work_order.cab_default_bom)
 			for item in cab_bom_doc.items:
 				new_row = {
 					"item_code": item.item_code,
