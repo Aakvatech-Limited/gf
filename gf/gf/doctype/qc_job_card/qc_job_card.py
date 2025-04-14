@@ -134,7 +134,7 @@ class QCJobCard(Document):
 					"item_code": item.item_code,
 					"qty": item.qty,
 					"uom": item.uom,
-					"s_warehouse": self.assembly_line_warehouse,
+					"s_warehouse": work_order.assembly_line_warehouse,
 				}
 
 				if item.item_code == work_order.chassis_item:
@@ -152,7 +152,7 @@ class QCJobCard(Document):
 					"item_code": item.item_code,
 					"qty": item.qty,
 					"uom": item.uom,
-					"s_warehouse": self.cab_line_warehouse,
+					"s_warehouse": work_order.cab_line_warehouse,
 				}
 
 				if item.item_code == work_order.chassis_item:
