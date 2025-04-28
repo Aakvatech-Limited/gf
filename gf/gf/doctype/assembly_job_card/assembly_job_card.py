@@ -14,7 +14,11 @@ class AssemblyJobCard(Document):
 	def before_save(self):
 		self.set_working_hours()
 		self.add_sickbay_task()
-		self.add_remove_defects()	
+		self.add_remove_defects()
+
+		if len(self.sickbay_stations) == 0:
+			self.has_sickbay = 0
+			self.sickbay_start_date = ""
 	
 	def before_submit(self):
 		self.validate_defects()
@@ -89,9 +93,6 @@ class AssemblyJobCard(Document):
 				self.sickbay_total_hours += row.total_time_elapsed
 
 	def add_sickbay_task(self):
-		if self.has_sickbay == 0:
-			return
-		
 		sickbays = []
 		sickbay_ref_tasks = [i.ref_docname for i in self.sickbay_stations]
 
@@ -106,6 +107,11 @@ class AssemblyJobCard(Document):
 					"ref_doctype": d.doctype,
 					"ref_docname": d.name
 				})
+
+				if not self.has_sickbay:
+					self.has_sickbay = 1
+				if not self.sickbay_start_date:
+					self.sickbay_start_date = nowdate()
 		
 		for d in self.cab_stations:
 			if d.name not in sickbays:
@@ -118,6 +124,11 @@ class AssemblyJobCard(Document):
                     "ref_doctype": d.doctype,
                     "ref_docname": d.name
                 })
+
+				if not self.has_sickbay:
+					self.has_sickbay = 1
+				if not self.sickbay_start_date:
+					self.sickbay_start_date = nowdate()
 		
 		for d in self.engine_stations:
 			if d.name not in sickbays:
@@ -130,6 +141,11 @@ class AssemblyJobCard(Document):
                     "ref_doctype": d.doctype,
                     "ref_docname": d.name
                 })
+
+				if not self.has_sickbay:
+					self.has_sickbay = 1
+				if not self.sickbay_start_date:
+					self.sickbay_start_date = nowdate()
 		
 		for d in self.bs_ps_stations:
 			if d.name not in sickbays:
@@ -142,6 +158,11 @@ class AssemblyJobCard(Document):
                     "ref_doctype": d.doctype,
                     "ref_docname": d.name
                 })
+
+				if not self.has_sickbay:
+					self.has_sickbay = 1
+				if not self.sickbay_start_date:
+					self.sickbay_start_date = nowdate()
 		
 		row_to_remove = []
 		for row in self.sickbay_stations:
