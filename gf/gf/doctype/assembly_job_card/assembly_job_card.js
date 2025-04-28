@@ -593,11 +593,11 @@ frappe.ui.form.on('Bodyshop QC Detail', {
 
 frappe.ui.form.on('QC Defect Detail', {
 	form_render: (frm, cdt, cdn) => {
-        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-delete-row').hide();
-        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row-below').hide();
-        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-insert-row').hide();
-        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-duplicate-row').hide();
-        frm.fields_dict.sickbay_stations.grid.wrapper.find('.grid-move-row').hide();
+        frm.fields_dict.qc_defects.grid.wrapper.find('.grid-delete-row').hide();
+        frm.fields_dict.qc_defects.grid.wrapper.find('.grid-insert-row-below').hide();
+        frm.fields_dict.qc_defects.grid.wrapper.find('.grid-insert-row').hide();
+        frm.fields_dict.qc_defects.grid.wrapper.find('.grid-duplicate-row').hide();
+        frm.fields_dict.qc_defects.grid.wrapper.find('.grid-move-row').hide();
     },
 	status: (frm, cdt, cdn) => {
 		frm.set_value('status', 'QC');
