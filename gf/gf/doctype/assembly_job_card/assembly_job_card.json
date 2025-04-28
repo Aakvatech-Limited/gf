@@ -56,6 +56,7 @@
   "bs_ps_qc_template",
   "bs_ps_qc_checklist",
   "sickbay_tab",
+  "sickbay_start_date",
   "sickbay_total_hours",
   "sickbay_stations",
   "section_break_oc9ze",
@@ -425,13 +426,20 @@
    "label": "Assembly Line",
    "options": "\nLine 1\nLine 2",
    "read_only": 1
+  },
+  {
+   "fieldname": "sickbay_start_date",
+   "fieldtype": "Date",
+   "label": "Sickbay Start Date",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-11 21:35:55.398035",
+ "modified": "2025-04-28 18:10:39.586998",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Job Card",
