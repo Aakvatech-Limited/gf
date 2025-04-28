@@ -15,7 +15,10 @@
   "quantity",
   "gfa_bol_no",
   "gfa_batch_no",
+  "column_break_xmouy",
   "assembly_line",
+  "assembly_start_date",
+  "planned_completion_date",
   "section_break_pkrcl",
   "assembly_default_bom",
   "cab_default_bom",
@@ -223,13 +226,32 @@
    "fieldtype": "Select",
    "label": "Assembly Line",
    "options": "\nLine 1\nLine 2",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_xmouy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assembly_start_date",
+   "fieldtype": "Date",
+   "label": "Assembly Start Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "planned_completion_date",
+   "fieldtype": "Date",
+   "label": "Planned Completion Date",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-11 21:34:31.712472",
+ "modified": "2025-04-28 17:23:05.666004",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "Assembly Work Order",
