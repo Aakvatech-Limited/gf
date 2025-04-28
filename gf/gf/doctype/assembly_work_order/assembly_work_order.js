@@ -26,10 +26,12 @@ frappe.ui.form.on('Assembly Work Order', {
 				}
 			}
 		});
-		frm.set_query("customer", () => {
+		frm.set_query("consignee", () => {
+			console.log("hbzhvcj bvjh k")
 			return {
 				filters: {
-					"disabled": 0
+					"disabled": 0,
+					"customer_group": "Reseller"
 				}
 			}
 		});
