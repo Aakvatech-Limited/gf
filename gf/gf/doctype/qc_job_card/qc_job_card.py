@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from time import sleep
 from frappe.model.document import Document
 from frappe.utils import nowdate, nowtime, get_url_to_form, now_datetime
 from gf.api.api import create_stock_entry as _create_stock_entry
@@ -20,25 +21,51 @@ class QCJobCard(Document):
 	
 	def on_submit(self):
 		self.create_stock_entry()
-		self.create_serial_no()
+		self.create_finished_truck()
 	
-	def create_serial_no(self):
+	def create_finished_truck(self):
+		if not self.gfa_bol_no:
+			frappe.throw("GFA BOL No is mandatory")
+		
 		for field in ["engine_no", "chassis_no"]:
 			if not self.get(field):
 				frappe.throw(f"{field} is mandatory")
+		
+		serial_no = f"{self.chassis_no}-{self.engine_no}"
+		new_row = {
+			"item_code": self.model,
+			"qty": 1,
+			"uom": frappe.get_cached_value("Item", self.model, "stock_uom"),
+			"t_warehouse": frappe.get_cached_value("Customer", self.consignee, "warehouse"),
+			"serial_no": serial_no
+		}
 
-		serial_no = frappe.new_doc("Serial No")
-		serial_no.serial_no = f"{self.chassis_no}-{self.engine_no}"
-		serial_no.item_code = frappe.get_cached_value("Assembly Work Order", self.work_order, "parent_item")
-		serial_no.gfa_item_type = "Chs/Eng"
-		serial_no.warehouse = frappe.get_cached_value("Customer", self.consignee, "warehouse")
-		serial_no.status = "Active"
-		serial_no.company = self.company
-		serial_no.flags.ignore_mandatory = True
-		serial_no.flags.ignore_permissions = True
-		serial_no.save()
+		data = {
+			"purpose": "Material Receipt",
+			"stock_entry_type": "Material Receipt",
+			"company": self.company,
+			"gfa_bol_no": self.gfa_bol_no,
+			"gfa_batch_no": self.gfa_batch_no,
+		}
 
-		self.serial_no = serial_no.name
+		data["items"] = [new_row]
+
+		stock_entry = _create_stock_entry(data)
+		sleep(10)
+
+		if stock_entry:
+			if frappe.db.exists(
+				"Serial No",
+				serial_no
+			):
+				frappe.db.set_value(
+					"Serial No",
+					serial_no,
+					"gfa_item_type",
+					"Chs/Eng"
+				)
+
+		self.serial_no = serial_no
 		self.finished_truck_date = now_datetime()
 		self.save()
 
