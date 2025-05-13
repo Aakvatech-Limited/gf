@@ -38,6 +38,7 @@
   "qc_remarks_section",
   "qc_remarks",
   "actions_section",
+  "issue_stock",
   "stock_entry",
   "column_break_jhefb",
   "serial_no",
@@ -302,13 +303,22 @@
    "label": "Finished Truck Date",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "issue_stock",
+   "fieldtype": "Check",
+   "label": "Issue Stock",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-10 12:54:28.337940",
+ "modified": "2025-05-13 10:50:59.503770",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",
