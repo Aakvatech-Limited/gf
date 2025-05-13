@@ -4,7 +4,8 @@
 import frappe
 from time import sleep
 from frappe.model.document import Document
-from frappe.utils import nowdate, nowtime, get_url_to_form, now_datetime
+from frappe.utils.background_jobs import enqueue
+from frappe.utils import get_url_to_form, now_datetime
 from gf.api.api import create_stock_entry as _create_stock_entry
 
 class QCJobCard(Document):
@@ -20,7 +21,7 @@ class QCJobCard(Document):
 		self.validate_consignee_warehouse()
 	
 	def on_submit(self):
-		self.create_stock_entry()
+		# self.create_stock_entry()
 		self.create_finished_truck()
 	
 	def create_finished_truck(self):
@@ -191,3 +192,56 @@ class QCJobCard(Document):
 				items.append(new_row)
 		
 		return items
+
+@frappe.whitelist()
+def enqueue_material_issue(doc_type, doc_name):
+	"""Enqueue a method to create stock entry (material transfer)
+	:param doc_type: Document type
+	:param doc_name: Document name
+	"""
+
+	if not doc_type or not doc_name:
+		return
+	
+	frappe.msgprint("Stock Entry (Material Issue) is enqueued.", alert=True)
+
+	enqueue(
+		method=create_stock_entry_material_issue,
+		job_name="create_stock_entry_material_issue",
+		kwargs={"doc_type": doc_type, "doc_name": doc_name},
+	)
+
+def create_stock_entry_material_issue(kwargs):
+	"""Create stock entry (Material Issue)
+    :param doc_type: Document type
+    :param doc_name: Document name
+    """
+
+	doc_type = str(kwargs.get("doc_type"))
+	doc_name = str(kwargs.get("doc_name"))
+	doc = frappe.get_doc(doc_type, doc_name)
+	doc.issue_stock = 1
+	doc.db_update()
+	try:
+		stock_entry_id = doc.create_stock_entry()
+		if stock_entry_id:
+			url = get_url_to_form("Stock Entry", stock_entry_id)
+			doc.add_comment(
+				"Comment",
+				text=f"Stock Entry (Material Issue) created: <a href='{url}'>{frappe.bold(stock_entry_id)}</a>",
+			)
+		return stock_entry_id
+	
+	except Exception as e:
+		doc.issue_stock = 0
+		doc.db_update()
+		doc.add_comment(
+			"Comment",
+			text=f"Error creating stock entry (Material Issue): \n{str(e)}",
+		)
+
+		traceback = frappe.get_traceback()
+		frappe.log_error(
+			title="Create Stock Entry (Material Issue)",
+			message=f"Error creating stock entry for {doc_type} {doc_name}: {str(e)}\n{traceback}",
+		)

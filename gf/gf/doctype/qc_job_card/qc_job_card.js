@@ -9,6 +9,20 @@ frappe.ui.form.on('QC Job Card', {
 	onload: (frm) => {
 		frm.trigger('set_filters');
 		frm.trigger('hide_add_remove_btns');
+		frm.trigger("issue_stock");
+	},
+	on_submit: (frm) => {
+		if (!frm.doc.stock_entry && frm.doc.issue_stock == 0) {
+			frappe.call({
+				method: "gf.gf.doctype.qc_job_card.qc_job_card.enqueue_material_issue",
+				args: {
+					doc_type: frm.doc.doctype,
+					doc_name: frm.doc.name
+				},
+				callback: (r) => {
+				}
+			});
+        }
 	},
 	set_filters: (frm) => {
 		frm.set_query("dynamic_qc_template", () => {
@@ -87,6 +101,23 @@ frappe.ui.form.on('QC Job Card', {
 		// hide button to delete rows
 		$("*[data-fieldname='qc_defect_items']").find(".grid-remove-rows").hide();
 		$("*[data-fieldname='qc_defect_items']").find(".grid-remove-all-rows").hide();
+	},
+	issue_stock: (frm) => {
+		frm.refresh();
+		
+		if (!frm.doc.stock_entry && frm.doc.issue_stock == 0) {
+			frm.add_custom_button(__("Transfer Stock"), () => {
+				frappe.call({
+					method: "gf.gf.doctype.qc_job_card.qc_job_card.enqueue_material_issue",
+					args: {
+						doc_type: frm.doc.doctype,
+						doc_name: frm.doc.name
+					},
+					callback: (r) => {
+					}
+				});
+			})
+        }
 	},
 });
 
