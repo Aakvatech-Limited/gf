@@ -2,7 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.utils import flt
+from frappe.utils import flt, get_url_to_form
 from frappe.model.document import Document
 from frappe.utils.background_jobs import enqueue
 from gf.api.api import create_stock_entry, create_assembly_job_card, get_stock_availability
@@ -290,10 +290,24 @@ def create_stock_entry_material_transfer(kwargs):
 		stock_entry_id = doc.create_stock_entry()
 		if stock_entry_id:
 			doc.queue_action("submit")
+
+			url = get_url_to_form("Stock Entry", stock_entry_id)
+			doc.add_comment(
+				"Comment",
+				text=f"Stock Entry (Material Transfer) created: <a href='{url}'>{frappe.bold(stock_entry_id)}</a>",
+			)
 	
 		return stock_entry_id
 	
 	except Exception as e:
 		doc.transfer_stock = 0
 		doc.save(ignore_permissions=True)
-		frappe.log_error("Create Stock Entry (Material Transfer)", str(e))
+		doc.add_comment(
+			"Comment",
+			text=f"Error creating stock entry (Material Transfer): \n{str(e)}",
+		)
+		traceback = frappe.get_traceback()
+		frappe.log_error(
+			title="Create Stock Entry (Material Transfer)",
+			message=f"Error creating stock entry for {doc_type} {doc_name}: {str(e)}\n{traceback}",
+		)
