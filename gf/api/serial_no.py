@@ -5,6 +5,7 @@ def update_gfa_bol_no():
         "Serial No",
         filters={
             "gfa_bol_no": "",
+            "gfa_item_type": ["!=", "Chs/Eng"],
             "purchase_document_type": "Stock Entry",
             "purchase_document_no": ["!=", ""]
         },
