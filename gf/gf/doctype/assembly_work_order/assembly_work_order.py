@@ -253,8 +253,14 @@ class AssemblyWorkOrder(Document):
 		
 		stock_entry_doc = frappe.get_doc("Stock Entry", self.stock_entry)
 		if stock_entry_doc.docstatus == 1:
-			stock_entry_doc.queue_action("cancel")
-		elif stock_entry_doc.docstatus == 0:
+			enqueue(
+				method=cancel_and_delete_stock_entry,
+				queue="long",
+				timeout=1800,  # 30 minutes
+				job_name=f"cancel_delete_se_{self.stock_entry}",
+				kwargs={"stock_entry_name": self.stock_entry},
+			)
+		else:
 			stock_entry_doc.delete()
 	
 @frappe.whitelist()
@@ -311,3 +317,12 @@ def create_stock_entry_material_transfer(kwargs):
 			title="Create Stock Entry (Material Transfer)",
 			message=f"Error creating stock entry for {doc_type} {doc_name}: {str(e)}\n{traceback}",
 		)
+
+
+def cancel_and_delete_stock_entry(kwargs):
+	"""Cancel and then delete a stock entry (runs in background)."""
+	stock_entry_name = kwargs.get("stock_entry_name")
+	doc = frappe.get_doc("Stock Entry", stock_entry_name)
+	doc.cancel()
+	doc.delete()
+
