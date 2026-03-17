@@ -293,8 +293,19 @@ def create_stock_entry_material_transfer(kwargs):
 	doc.transfer_stock = 1
 	doc.save(ignore_permissions=True)
 	try:
-		stock_entry_id = doc.create_stock_entry()
+		stock_entry_id = doc.stock_entry or ""
+
+		if not stock_entry_id:
+			stock_entry_id = doc.create_stock_entry()
+		
 		if stock_entry_id:
+			entry_doc = frappe.get_doc("Stock Entry", stock_entry_id)
+			if entry_doc.docstatus == 0:
+				entry_doc.submit()
+			
+			if entry_doc.docstatus == 2:
+				frappe.throw(f"Stock Entry {stock_entry_id} is cancelled, cannot proceed with submission.")	
+
 			doc.queue_action("submit")
 
 			url = get_url_to_form("Stock Entry", stock_entry_id)
@@ -306,11 +317,35 @@ def create_stock_entry_material_transfer(kwargs):
 		return stock_entry_id
 	
 	except Exception as e:
-		doc.transfer_stock = 0
+		msg = ""
+		transfer_stock = 0
+		stock_entry_id = frappe.get_cached_value(
+			"Stock Entry",
+			{
+				"gfa_bol_no": doc.gfa_bol_no,
+				"gfa_batch_no": doc.gfa_batch_no,
+				"purpose": "Material Transfer"
+			},
+			"name",
+		)
+
+		if stock_entry_id:
+			url = get_url_to_form("Stock Entry", stock_entry_id)
+			msg = f"Stock Entry (Material Transfer) created: <a href='{url}'>{frappe.bold(stock_entry_id)}</a>\
+				  <br>\nbut there was an error: {str(e)}\
+					  <br>\n Please Re-submit Work Order"
+		
+			transfer_stock = 1
+		else:
+			msg = f"Error creating stock entry (Material Transfer): \n{str(e)}"
+			transfer_stock = 0
+		
+		doc.transfer_stock = transfer_stock
+		doc.stock_entry = stock_entry_id
 		doc.save(ignore_permissions=True)
 		doc.add_comment(
 			"Comment",
-			text=f"Error creating stock entry (Material Transfer): \n{str(e)}",
+			text=msg,
 		)
 		traceback = frappe.get_traceback()
 		frappe.log_error(
