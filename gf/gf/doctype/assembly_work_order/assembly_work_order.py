@@ -71,11 +71,11 @@ class AssemblyWorkOrder(Document):
 			)
 	
 	@frappe.whitelist()
-	def create_stock_entry(self, purpose="Material Transfer", items=[]):
+	def create_stock_entry(self, purpose="Material Transfer", items=None):
 		if not self.gfa_bol_no:
 			frappe.throw("GFA BOL No is mandatory")
 		
-		if len(items) == 0:
+		if not items:
 			items = self.get_stock_entry_items()
 		
 		data = {
