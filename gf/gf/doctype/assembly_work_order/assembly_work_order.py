@@ -5,7 +5,7 @@ import frappe
 from frappe.utils import flt, get_url_to_form
 from frappe.model.document import Document
 from frappe.utils.background_jobs import enqueue
-from gf.api.api import create_stock_entry, create_assembly_job_card, get_stock_availability
+from gf.api.api import create_stock_entry as make_entry, create_assembly_job_card, get_stock_availability
 
 
 class AssemblyWorkOrder(Document):
@@ -86,7 +86,7 @@ class AssemblyWorkOrder(Document):
 			"gfa_batch_no": self.gfa_batch_no,
 			"items": items,
 		}
-		stock_entry_id = create_stock_entry(data)
+		stock_entry_id = make_entry(data)
 		if purpose == "Material Transfer":
 			self.stock_entry = stock_entry_id
 			self.save(ignore_permissions=True)
