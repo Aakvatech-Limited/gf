@@ -242,7 +242,7 @@ class AssemblyWorkOrder(Document):
         """
 		job_cards = frappe.get_all("Assembly Job Card", {"work_order": self.name})
 		if len(job_cards) > 0:
-			frappe.throw(str(f"There are <b>{len(job_cards)}</b> assembly job cards for this assembly job order, Please cancel them first"))
+			frappe.throw(str(f"There are <b>{len(job_cards)}</b> assembly job cards for this assembly job order, Please cancel and remove them first"))
 		
 	def cancel_stock_entry(self):
 		"""
