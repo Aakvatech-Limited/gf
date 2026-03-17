@@ -155,7 +155,6 @@
    "fieldname": "posting_time",
    "fieldtype": "Time",
    "label": "Posting Time",
-   "read_only": 1,
    "search_index": 1
   },
   {
@@ -163,7 +162,6 @@
    "fieldtype": "Date",
    "in_standard_filter": 1,
    "label": "Posting Date",
-   "read_only": 1,
    "search_index": 1
   },
   {
