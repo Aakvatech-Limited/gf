@@ -212,13 +212,17 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			frm.set_value('enable_eol_qc', 1);
 		}
 		frm.refresh_field('assembly_stations');
-		frm.set_value('status', 'Assembly');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Assembly');
+		}
 		frm.save();
 	},
 	pause: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('assembly_stations');
-		frm.set_value('status', 'Assembly');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Assembly');
+		}
 		frm.save();
 	},
 	pause_reason: (frm, cdt, cdn) => {
@@ -235,7 +239,9 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
 		}
 		frm.refresh_field('assembly_stations');
-		frm.set_value('status', 'Assembly');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Assembly');
+		}
 		frm.save();
 	},
 	pending: (frm, cdt, cdn) => {
@@ -249,7 +255,9 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assembly_p_total_time_elapsed);
 		}
 		frm.refresh_field('assembly_stations');
-		frm.set_value('status', 'Assembly');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Assembly');
+		}
 		if (row.pending_tasks) {
 			frm.save();
 		}
@@ -269,7 +277,9 @@ frappe.ui.form.on('Assembly Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', assmbly_end_total_time_elapsed)
 		}
 		frm.refresh_field('assembly_stations');
-		frm.set_value('status', 'Assembly');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Assembly');
+		}
 		frm.save();
 	},
 });
@@ -286,13 +296,17 @@ frappe.ui.form.on('Cab Job Card Detail', {
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
 		frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cab');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Cab');
+		}
 		frm.save();
 	},
 	pause: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cab');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Cab');
+		}
 		frm.save();
 	},
 	pause_reason: (frm, cdt, cdn) => {
@@ -309,7 +323,9 @@ frappe.ui.form.on('Cab Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
 		}
 		frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cab');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Cab');
+		}
 		frm.save();
 	},
 	pending: (frm, cdt, cdn) => {
@@ -324,7 +340,9 @@ frappe.ui.form.on('Cab Job Card Detail', {
 		}
 
         frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cab');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Cab');
+		}
 		if (row.pending_tasks) {
 			frm.save();
 		}
@@ -341,7 +359,9 @@ frappe.ui.form.on('Cab Job Card Detail', {
 		}
 
         frm.refresh_field('cab_stations');
-		frm.set_value('status', 'Cab');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Cab');
+		}
         frm.save();
 	},
 });
@@ -357,13 +377,17 @@ frappe.ui.form.on('Engine Job Card Detail', {
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
 		frm.refresh_field('engine_stations');
-		frm.set_value('status', 'Engine');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Engine');
+		}
 		frm.save();
 	},
 	pause: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('engine_stations');
-		frm.set_value('status', 'Engine');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Engine');
+		}
 		frm.save();
 	},
 	pause_reason: (frm, cdt, cdn) => {
@@ -380,7 +404,9 @@ frappe.ui.form.on('Engine Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
 		}
 		frm.refresh_field('engine_stations');
-		frm.set_value('status', 'Engine');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Engine');
+		}
 		frm.save();
 	},
 	pending: (frm, cdt, cdn) => {
@@ -395,7 +421,9 @@ frappe.ui.form.on('Engine Job Card Detail', {
 		}
 
         frm.refresh_field('engine_stations');
-		frm.set_value('status', 'Engine');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Engine');
+		}
 		if (row.pending_tasks) {
 			frm.save();
 		}
@@ -412,7 +440,9 @@ frappe.ui.form.on('Engine Job Card Detail', {
 		}
 
         frm.refresh_field('engine_stations');
-		frm.set_value('status', 'Engine');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Engine');
+		}
         frm.save();
 	},
 });
@@ -429,13 +459,17 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('bs_ps_stations');
-		frm.set_value('status', 'Bodyshop');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Bodyshop');
+		}
 		frm.save();
 	},
 	pause: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('bs_ps_stations');
-		frm.set_value('status', 'Bodyshop');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Bodyshop');
+		}
 		frm.save();
 	},
 	pause_reason: (frm, cdt, cdn) => {
@@ -452,7 +486,9 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
 		}
 		frm.refresh_field('bs_ps_stations');
-		frm.set_value('status', 'Bodyshop');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Bodyshop');
+		}
 		frm.save();
 	},
 	pending: (frm, cdt, cdn) => {
@@ -466,7 +502,9 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_p_total_time_elapsed);
 		}
 		frm.refresh_field('bs_ps_stations');
-		frm.set_value('status', 'Bodyshop');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Bodyshop');
+		}
 		frm.save();
 	},
 	end: (frm, cdt, cdn) => {
@@ -480,7 +518,9 @@ frappe.ui.form.on('Bodyshop Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'total_time_elapsed', body_end_total_time_elapsed)
 		}
 		frm.refresh_field('bs_ps_stations');
-		frm.set_value('status', 'Bodyshop');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Bodyshop');
+		}
 		frm.save();
 	},
 });
@@ -497,13 +537,17 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 	start: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'start_datetime', frappe.datetime.now_datetime());
 		frm.refresh_field('sickbay_stations');
-		frm.set_value('status', 'Sickbay');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Sickbay');
+		}
 		frm.save();
 	},
 	pause: (frm, cdt, cdn) => {
 		frappe.model.set_value(cdt, cdn, 'pause_datetime', frappe.datetime.now_datetime())
 		frm.refresh_field('sickbay_stations');
-		frm.set_value('status', 'Sickbay');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Sickbay');
+		}
 		frm.save();
 	},
 	pause_reason: (frm, cdt, cdn) => {
@@ -520,7 +564,9 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 			frappe.model.set_value(cdt, cdn, 'resting_time', resting_time);
 		}
 		frm.refresh_field('sickbay_stations');
-		frm.set_value('status', 'Sickbay');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Sickbay');
+		}
 		frm.save();
 	},
 	end: (frm, cdt, cdn) => {
@@ -539,14 +585,18 @@ frappe.ui.form.on('Sickbay Job Card Detail', {
 			frappe.model.set_value(row.ref_doctype, row.ref_docname, 'end_datetime', now_datetime);
 		}
 		frm.refresh_field('sickbay_stations');
-		frm.set_value('status', 'Sickbay');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'Sickbay');
+		}
 		frm.save();
 	},
 })
 
 frappe.ui.form.on('EOL QC Detail', {
 	status: (frm, cdt, cdn) => {
-		frm.set_value('status', 'QC');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
@@ -555,7 +605,9 @@ frappe.ui.form.on('EOL QC Detail', {
 
 frappe.ui.form.on('Job Card QC Detail', {
 	status: (frm, cdt, cdn) => {
-		frm.set_value('status', 'QC');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
@@ -564,7 +616,9 @@ frappe.ui.form.on('Job Card QC Detail', {
 
 frappe.ui.form.on('Cab QC Detail', {
 	status: (frm, cdt, cdn) => {
+		if (frm.doc.docstatus == 0) {
 		frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
@@ -573,7 +627,9 @@ frappe.ui.form.on('Cab QC Detail', {
 
 frappe.ui.form.on('Engine QC Detail', {
 	status: (frm, cdt, cdn) => {
-		frm.set_value('status', 'QC');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
@@ -583,7 +639,9 @@ frappe.ui.form.on('Engine QC Detail', {
 
 frappe.ui.form.on('Bodyshop QC Detail', {
 	status: (frm, cdt, cdn) => {
-		frm.set_value('status', 'QC');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
@@ -600,7 +658,9 @@ frappe.ui.form.on('QC Defect Detail', {
         frm.fields_dict.qc_defects.grid.wrapper.find('.grid-move-row').hide();
     },
 	status: (frm, cdt, cdn) => {
-		frm.set_value('status', 'QC');
+		if (frm.doc.docstatus == 0) {
+			frm.set_value('status', 'QC');
+		}
 		let row = frappe.get_doc(cdt, cdn);
 		row.worked_by = frappe.session.user_fullname
 		frm.refresh_field('worked_by');
