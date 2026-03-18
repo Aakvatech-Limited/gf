@@ -79,6 +79,7 @@ def create_assembly_job_card(doc, row):
         card_doc.append("bs_ps_stations", {"station": f"B {i+1}" })
 
     card_doc.__newname = f"{card_doc.chassis_no}-{card_doc.engine_no}"
+    card_doc.name = f"{card_doc.chassis_no}-{card_doc.engine_no}"
 
     card_doc.insert(ignore_permissions=True)
     card_doc.reload()

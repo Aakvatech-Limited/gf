@@ -6,6 +6,9 @@ from frappe.model.document import Document
 from frappe.utils import time_diff_in_hours, nowdate, nowtime, get_url_to_form
 
 class AssemblyJobCard(Document):
+	def autoname(self):
+		self.name = f"{self.chassis_no}-{self.engine_no}"
+	
 	def after_insert(self):
 		self.get_checklist_from_templates()
 
@@ -332,7 +335,8 @@ class AssemblyJobCard(Document):
 		qc_job_card.company = self.company
 		qc_job_card.posting_date = nowdate()
 		qc_job_card.posting_time = nowtime()
-		# qc_job_card.__newname = f"{self.engine_no}/{self.chassis_no}/{self.model}"
+		qc_job_card.__newname = f"{self.chassis_no}-{self.engine_no}"
+		qc_job_card.name = f"{self.chassis_no}-{self.engine_no}"
 		qc_job_card.save(ignore_permissions=True)
 
 		if qc_job_card.get("name"):
