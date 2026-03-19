@@ -6,7 +6,6 @@ def update_gfa_bol_no():
         filters={
             "gfa_bol_no": "",
             "gfa_item_type": ["!=", "Chs/Eng"],
-            "purchase_document_type": "Stock Entry",
             "purchase_document_no": ["!=", ""]
         },
         fields=["name", "purchase_document_no", "serial_no"],
@@ -19,9 +18,6 @@ def update_gfa_bol_no():
     for serial in serial_nos:
         doc = frappe.get_doc("Serial No", serial.get('name'))
 
-        if doc.purchase_document_type != 'Stock Entry':
-            continue
-            
         if not doc.purchase_document_no:
             continue
 
