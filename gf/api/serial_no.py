@@ -5,12 +5,13 @@ def update_gfa_bol_no():
         "Serial No",
         filters={
             "gfa_bol_no": "",
+            "status": ["!=", "Delivered"],
             "gfa_item_type": ["!=", "Chs/Eng"],
             "purchase_document_no": ["!=", ""]
         },
         fields=["name", "purchase_document_no", "serial_no"],
-        page_length=50
-        )
+        order_by='creation desc'
+    )
 
     if len(serial_nos) == 0:
         return
