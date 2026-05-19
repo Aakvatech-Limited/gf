@@ -43,6 +43,10 @@ doctype_list_js = {
     "Property Setter": "icd_tz/patches/property_setter.js",
 }
 
+doctype_js = {
+    "Sales Order": "public/js/sales_order.js",
+}
+
 
 # Home Pages
 # ----------

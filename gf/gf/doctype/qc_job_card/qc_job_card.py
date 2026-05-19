@@ -54,17 +54,20 @@ class QCJobCard(Document):
 		stock_entry = _create_stock_entry(data)
 		sleep(10)
 
-		if stock_entry:
-			if frappe.db.exists(
+		if stock_entry and frappe.db.exists("Serial No", serial_no):
+			gfa_batch_no = frappe.db.get_value(
+				"Stock Entry", stock_entry, "gfa_batch_no", cache=True
+			)
+			frappe.db.set_value(
 				"Serial No",
-				serial_no
-			):
-				frappe.db.set_value(
-					"Serial No",
-					serial_no,
-					"gfa_item_type",
-					"Chs/Eng"
-				)
+				serial_no,
+				{
+					"gfa_item_type": "Chs/Eng",
+					"chassis_no": self.chassis_no,
+					"engine_no": self.engine_no,
+					"gfa_batch_no": gfa_batch_no,
+				},
+			)
 
 		self.serial_no = serial_no
 		self.finished_truck_date = now_datetime()

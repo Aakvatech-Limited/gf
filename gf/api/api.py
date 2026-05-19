@@ -172,3 +172,41 @@ def get_stock_availability(item_code, warehouse):
 
 def get_fields_to_clear():
     return [ "doctype", "owner", "creation", "modified", "modified_by", "docstatus", "name", "parent", "parentfield", "parenttype", "idx", "amended_from"]
+
+
+@frappe.whitelist()
+def get_items_from_gfa_batch_no(gfa_batch_no):
+    if not gfa_batch_no:
+        return {"items": [], "total_serials_found": 0, "skipped_serials_without_selling_item": []}
+
+    serials = frappe.db.get_all(
+        "Serial No",
+        filters={
+            "gfa_batch_no": gfa_batch_no,
+            "gfa_item_type": "Chs/Eng",
+        },
+        fields=["name", "selling_item", "chassis_no", "engine_no"],
+        order_by="creation asc",
+    )
+
+    items = []
+    skipped = []
+    for s in serials:
+        if not s.selling_item:
+            skipped.append(s.name)
+            continue
+        items.append({
+            "item_code": s.selling_item,
+            "qty": 1,
+            "uom": frappe.get_cached_value("Item", s.selling_item, "stock_uom"),
+            "serial_no": s.name,
+            "description": s.chassis_no or s.name,
+            "chassis_no": s.chassis_no,
+            "engine_no": s.engine_no,
+        })
+
+    return {
+        "items": items,
+        "total_serials_found": len(serials),
+        "skipped_serials_without_selling_item": skipped,
+    }
