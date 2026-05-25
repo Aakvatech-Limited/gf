@@ -13,6 +13,7 @@
   "column_break_xef0m",
   "gfa_bol_no",
   "gfa_batch_no",
+  "brand_new_truck",
   "column_break_fa3vn",
   "engine_no",
   "chassis_no",
@@ -310,13 +311,20 @@
    "label": "Issue Stock",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "depends_on": "eval: doc.consignee == \"GF Vehicle Assemblers Ltd\"",
+   "fieldname": "brand_new_truck",
+   "fieldtype": "Link",
+   "label": "Brand New Truck",
+   "options": "Item"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-13 10:50:59.503770",
+ "modified": "2026-05-25 15:33:05.238298",
  "modified_by": "Administrator",
  "module": "GF",
  "name": "QC Job Card",

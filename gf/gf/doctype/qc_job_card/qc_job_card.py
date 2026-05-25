@@ -19,9 +19,14 @@ class QCJobCard(Document):
 	def before_submit(self):
 		self.validate_defects()
 		self.validate_consignee_warehouse()
+
+		if (
+			self.consignee == "GF Vehicle Assemblers Ltd"
+			and not self.brand_new_truck
+		):
+			frappe.throw("Brand New Truck is mandatory for GF Vehicle Assemblers Ltd")
 	
 	def on_submit(self):
-		# self.create_stock_entry()
 		self.create_finished_truck()
 	
 	def create_finished_truck(self):
@@ -33,10 +38,15 @@ class QCJobCard(Document):
 				frappe.throw(f"{field} is mandatory")
 		
 		serial_no = f"{self.chassis_no}-{self.engine_no}"
+		item = self.model
+
+		if self.consignee == "GF Vehicle Assemblers Ltd":
+			item = self.brand_new_truck
+			
 		new_row = {
-			"item_code": self.model,
+			"item_code": item,
 			"qty": 1,
-			"uom": frappe.get_cached_value("Item", self.model, "stock_uom"),
+			"uom": frappe.get_cached_value("Item", item, "stock_uom"),
 			"t_warehouse": frappe.get_cached_value("Customer", self.consignee, "warehouse"),
 			"serial_no": serial_no
 		}
